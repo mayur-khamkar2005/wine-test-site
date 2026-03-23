@@ -7,4 +7,3 @@ export const connectDatabase = async () => {
   await mongoose.connect(env.mongodbUri);
   console.info('MongoDB connection established');
 };
-

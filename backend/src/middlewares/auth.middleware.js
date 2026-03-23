@@ -31,10 +31,14 @@ export const protect = asyncHandler(async (req, _res, next) => {
   return next();
 });
 
-export const authorize = (...roles) => (req, _res, next) => {
-  if (!req.user || !roles.includes(req.user.role)) {
-    return next(new ApiError(403, 'You do not have permission to access this resource'));
-  }
+export const authorize =
+  (...roles) =>
+  (req, _res, next) => {
+    if (!req.user || !roles.includes(req.user.role)) {
+      return next(
+        new ApiError(403, 'You do not have permission to access this resource'),
+      );
+    }
 
-  return next();
-};
+    return next();
+  };

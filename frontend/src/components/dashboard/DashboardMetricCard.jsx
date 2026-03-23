@@ -1,15 +1,30 @@
 import { useEffect } from 'react';
-import { animate, motion, useMotionValue, useReducedMotion, useTransform } from 'framer-motion';
+import {
+  animate,
+  motion,
+  useMotionValue,
+  useReducedMotion,
+  useTransform,
+} from 'framer-motion';
 
-const AnimatedMetricValue = ({ value, decimals = 0, prefix = '', suffix = '' }) => {
+const AnimatedMetricValue = ({
+  value,
+  decimals = 0,
+  prefix = '',
+  suffix = '',
+}) => {
   const prefersReducedMotion = useReducedMotion();
   const motionValue = useMotionValue(prefersReducedMotion ? value : 0);
-  const formattedValue = useTransform(motionValue, (latestValue) => `${prefix}${Number(latestValue).toFixed(decimals)}${suffix}`);
+  const formattedValue = useTransform(
+    motionValue,
+    (latestValue) =>
+      `${prefix}${Number(latestValue).toFixed(decimals)}${suffix}`,
+  );
 
   useEffect(() => {
     const controls = animate(motionValue, value, {
       duration: prefersReducedMotion ? 0 : 1,
-      ease: [0.22, 1, 0.36, 1]
+      ease: [0.22, 1, 0.36, 1],
     });
 
     return () => controls.stop();
@@ -26,7 +41,7 @@ const DashboardMetricCard = ({
   accentClassName = 'bg-[color:var(--accent-bg)]',
   prefix = '',
   suffix = '',
-  decimals = 0
+  decimals = 0,
 }) => {
   const prefersReducedMotion = useReducedMotion();
   const isNumeric = typeof value === 'number' && Number.isFinite(value);
@@ -40,13 +55,27 @@ const DashboardMetricCard = ({
       whileHover={prefersReducedMotion ? {} : { y: -6, scale: 1.01 }}
       whileTap={prefersReducedMotion ? {} : { scale: 0.995 }}
     >
-      <div className={`absolute -right-10 -top-10 h-24 w-24 rounded-full blur-3xl ${accentClassName}`} aria-hidden="true" />
+      <div
+        className={`absolute -right-10 -top-10 h-24 w-24 rounded-full blur-3xl ${accentClassName}`}
+        aria-hidden="true"
+      />
       <div className="relative flex h-full min-w-0 flex-col gap-4">
         <div className="flex min-w-0 flex-col gap-3 min-[480px]:flex-row min-[480px]:items-start min-[480px]:justify-between">
           <div className="min-w-0 space-y-2">
-            <span className="text-[0.7rem] font-semibold uppercase tracking-[0.22em] text-[color:var(--text-subtle)]">{label}</span>
+            <span className="text-[0.7rem] font-semibold uppercase tracking-[0.22em] text-[color:var(--text-subtle)]">
+              {label}
+            </span>
             <div className="break-words text-2xl font-semibold leading-none tracking-tight text-[color:var(--text-strong)] sm:text-3xl lg:text-4xl">
-              {isNumeric ? <AnimatedMetricValue value={value} decimals={decimals} prefix={prefix} suffix={suffix} /> : value}
+              {isNumeric ? (
+                <AnimatedMetricValue
+                  value={value}
+                  decimals={decimals}
+                  prefix={prefix}
+                  suffix={suffix}
+                />
+              ) : (
+                value
+              )}
             </div>
           </div>
           {badge ? (
@@ -56,7 +85,9 @@ const DashboardMetricCard = ({
           ) : null}
         </div>
 
-        <p className="max-w-full break-words text-sm leading-6 text-[color:var(--text-soft)]">{helper}</p>
+        <p className="max-w-full break-words text-sm leading-6 text-[color:var(--text-soft)]">
+          {helper}
+        </p>
       </div>
     </motion.article>
   );

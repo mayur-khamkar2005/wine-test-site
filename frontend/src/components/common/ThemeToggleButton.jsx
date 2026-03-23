@@ -15,7 +15,13 @@ const ThemeToggleButton = ({ compact = false }) => {
       </span>
       <span className="theme-toggle__content">
         <strong>{isDark ? 'Dark Mode' : 'Light Mode'}</strong>
-        {!compact ? <small>{isDark ? 'Use the minimal black interface' : 'Use the minimal white interface'}</small> : null}
+        {!compact ? (
+          <small>
+            {isDark
+              ? 'Use the minimal black interface'
+              : 'Use the minimal white interface'}
+          </small>
+        ) : null}
       </span>
     </button>
   );

@@ -19,7 +19,10 @@ const CategoryChart = ({ data, colors, total }) => (
               stroke="transparent"
             >
               {data.map((entry) => (
-                <Cell key={entry.category} fill={colors[entry.category] || colors.default} />
+                <Cell
+                  key={entry.category}
+                  fill={colors[entry.category] || colors.default}
+                />
               ))}
             </Pie>
           </PieChart>
@@ -29,9 +32,15 @@ const CategoryChart = ({ data, colors, total }) => (
 
     <div className="grid gap-3">
       <div className="rounded-[1.4rem] border border-[color:var(--card-border)] bg-[color:var(--surface)] p-4 shadow-[var(--shadow-soft)]">
-        <p className="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-[color:var(--text-subtle)]">Tracked</p>
-        <p className="mt-2 text-2xl font-semibold tracking-tight text-[color:var(--text-strong)] sm:text-3xl">{total}</p>
-        <p className="mt-2 text-sm text-[color:var(--text-soft)]">Predictions included in the current range.</p>
+        <p className="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-[color:var(--text-subtle)]">
+          Tracked
+        </p>
+        <p className="mt-2 text-2xl font-semibold tracking-tight text-[color:var(--text-strong)] sm:text-3xl">
+          {total}
+        </p>
+        <p className="mt-2 text-sm text-[color:var(--text-soft)]">
+          Predictions included in the current range.
+        </p>
       </div>
 
       <div className="grid gap-2">
@@ -41,10 +50,19 @@ const CategoryChart = ({ data, colors, total }) => (
             className="flex min-w-0 items-center justify-between gap-3 rounded-2xl border border-[color:var(--card-border)] bg-[color:var(--surface)] px-3 py-2.5 shadow-[var(--shadow-soft)]"
           >
             <div className="flex min-w-0 items-center gap-2">
-              <span className="h-2.5 w-2.5 shrink-0 rounded-full" style={{ backgroundColor: colors[entry.category] || colors.default }} />
-              <span className="truncate text-sm text-[color:var(--text-soft)]">{entry.category}</span>
+              <span
+                className="h-2.5 w-2.5 shrink-0 rounded-full"
+                style={{
+                  backgroundColor: colors[entry.category] || colors.default,
+                }}
+              />
+              <span className="truncate text-sm text-[color:var(--text-soft)]">
+                {entry.category}
+              </span>
             </div>
-            <span className="shrink-0 text-sm font-semibold text-[color:var(--text-strong)]">{entry.share}%</span>
+            <span className="shrink-0 text-sm font-semibold text-[color:var(--text-strong)]">
+              {entry.share}%
+            </span>
           </div>
         ))}
       </div>

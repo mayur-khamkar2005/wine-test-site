@@ -16,12 +16,12 @@ export const registerUser = async ({ name, email, password }) => {
     email,
     password,
     role: USER_ROLES.USER,
-    lastLoginAt: new Date()
+    lastLoginAt: new Date(),
   });
 
   return {
     user: serializeUser(user),
-    token: generateAccessToken(user)
+    token: generateAccessToken(user),
   };
 };
 
@@ -43,7 +43,7 @@ export const loginUser = async ({ email, password }) => {
 
   return {
     user: serializeUser(user),
-    token: generateAccessToken(user)
+    token: generateAccessToken(user),
   };
 };
 

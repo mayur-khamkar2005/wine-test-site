@@ -7,7 +7,9 @@ const buildEnv = () => {
   const missingVariables = requiredVariables.filter((key) => !process.env[key]);
 
   if (missingVariables.length > 0) {
-    throw new Error(`Missing required environment variables: ${missingVariables.join(', ')}`);
+    throw new Error(
+      `Missing required environment variables: ${missingVariables.join(', ')}`,
+    );
   }
 
   return {
@@ -22,7 +24,7 @@ const buildEnv = () => {
       .filter(Boolean),
     adminEmail: (process.env.ADMIN_EMAIL || '').trim().toLowerCase(),
     adminPassword: process.env.ADMIN_PASSWORD || '',
-    adminName: process.env.ADMIN_NAME || 'Platform Admin'
+    adminName: process.env.ADMIN_NAME || 'Platform Admin',
   };
 };
 

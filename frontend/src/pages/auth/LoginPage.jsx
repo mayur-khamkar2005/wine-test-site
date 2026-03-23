@@ -3,7 +3,10 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 import FormField from '../../components/forms/FormField.jsx';
 import { useAuth } from '../../hooks/useAuth.js';
-import { getApiErrorMessage, validateLoginForm } from '../../utils/validation.js';
+import {
+  getApiErrorMessage,
+  validateLoginForm,
+} from '../../utils/validation.js';
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -12,12 +15,12 @@ const LoginPage = () => {
 
   const [formState, setFormState] = useState({
     email: '',
-    password: ''
+    password: '',
   });
   const [errors, setErrors] = useState({});
   const [status, setStatus] = useState({
     isSubmitting: false,
-    error: ''
+    error: '',
   });
 
   const redirectTo = location.state?.from?.pathname || '/dashboard';
@@ -26,7 +29,7 @@ const LoginPage = () => {
     const { name, value } = event.target;
     setFormState((current) => ({
       ...current,
-      [name]: value
+      [name]: value,
     }));
   };
 
@@ -43,26 +46,26 @@ const LoginPage = () => {
     try {
       setStatus({
         isSubmitting: true,
-        error: ''
+        error: '',
       });
 
       await login({
         email: formState.email.trim(),
-        password: formState.password
+        password: formState.password,
       });
 
       navigate(redirectTo, { replace: true });
     } catch (error) {
       setStatus({
         isSubmitting: false,
-        error: getApiErrorMessage(error, 'Unable to log in right now')
+        error: getApiErrorMessage(error, 'Unable to log in right now'),
       });
       return;
     }
 
     setStatus({
       isSubmitting: false,
-      error: ''
+      error: '',
     });
   };
 
@@ -71,7 +74,10 @@ const LoginPage = () => {
       <div className="auth-card__header">
         <span className="page-header__eyebrow">Welcome Back</span>
         <h2>Login to your analyzer workspace.</h2>
-        <p>Use your account to run predictions, review history, and open the analytics dashboard.</p>
+        <p>
+          Use your account to run predictions, review history, and open the
+          analytics dashboard.
+        </p>
       </div>
 
       <form className="page-stack" onSubmit={handleSubmit} noValidate>
@@ -100,9 +106,16 @@ const LoginPage = () => {
           placeholder="Enter your password"
         />
 
-        {status.error ? <div className="status-card status-card--error">{status.error}</div> : null}
+        {status.error ? (
+          <div className="status-card status-card--error">{status.error}</div>
+        ) : null}
 
-        <button type="submit" className="button" disabled={status.isSubmitting} aria-busy={status.isSubmitting}>
+        <button
+          type="submit"
+          className="button"
+          disabled={status.isSubmitting}
+          aria-busy={status.isSubmitting}
+        >
           {status.isSubmitting ? 'Signing In...' : 'Sign In'}
         </button>
       </form>

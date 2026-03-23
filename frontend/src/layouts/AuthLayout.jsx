@@ -22,10 +22,15 @@ const AuthLayout = () => {
       <section className="auth-hero">
         <div className="auth-hero__content">
           <div className="auth-hero__top">
-            <span className="auth-hero__eyebrow">Wine Intelligence Platform</span>
+            <span className="auth-hero__eyebrow">
+              Wine Intelligence Platform
+            </span>
             <ThemeToggleButton />
           </div>
-          <h1>Analyze wine chemistry, predict quality, and monitor performance at scale.</h1>
+          <h1>
+            Analyze wine chemistry, predict quality, and monitor performance at
+            scale.
+          </h1>
         </div>
       </section>
 

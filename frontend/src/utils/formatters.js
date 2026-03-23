@@ -5,12 +5,14 @@ export const formatDateTime = (value) => {
 
   return new Intl.DateTimeFormat('en-IN', {
     dateStyle: 'medium',
-    timeStyle: 'short'
+    timeStyle: 'short',
   }).format(new Date(value));
 };
 
 export const formatMetricName = (value) =>
-  value.replace(/([A-Z])/g, ' $1').replace(/^./, (character) => character.toUpperCase());
+  value
+    .replace(/([A-Z])/g, ' $1')
+    .replace(/^./, (character) => character.toUpperCase());
 
 export const getCategoryClassName = (category = '') => {
   const normalizedCategory = category.toLowerCase();

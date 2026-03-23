@@ -13,4 +13,3 @@ router.use('/dashboard', dashboardRoutes);
 router.use('/admin', adminRoutes);
 
 export const apiRouter = router;
-

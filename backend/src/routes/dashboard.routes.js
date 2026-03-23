@@ -8,4 +8,3 @@ const router = Router();
 router.get('/summary', protect, getSummary);
 
 export const dashboardRoutes = router;
-

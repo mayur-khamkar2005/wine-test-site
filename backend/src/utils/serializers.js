@@ -7,7 +7,7 @@ export const serializeUser = (user) => ({
   role: user.role,
   lastLoginAt: user.lastLoginAt || null,
   createdAt: user.createdAt,
-  updatedAt: user.updatedAt
+  updatedAt: user.updatedAt,
 });
 
 export const serializeWineRecord = (record) => {
@@ -24,7 +24,6 @@ export const serializeWineRecord = (record) => {
     inputs: record.inputs,
     prediction: record.prediction,
     createdAt: record.createdAt,
-    updatedAt: record.updatedAt
+    updatedAt: record.updatedAt,
   };
 };
-

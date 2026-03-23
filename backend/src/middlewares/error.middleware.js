@@ -12,6 +12,6 @@ export const errorHandler = (error, _req, res, _next) => {
     success: false,
     message: error.message || 'Internal server error',
     errors: error.errors || [],
-    ...(env.nodeEnv === 'development' ? { stack: error.stack } : {})
+    ...(env.nodeEnv === 'development' ? { stack: error.stack } : {}),
   });
 };

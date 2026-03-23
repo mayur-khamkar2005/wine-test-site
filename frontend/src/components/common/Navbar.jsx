@@ -13,7 +13,7 @@ const Navbar = () => {
   const links = [
     { to: '/dashboard', label: 'Dashboard' },
     { to: '/analyzer', label: 'Analyzer' },
-    { to: '/history', label: 'History' }
+    { to: '/history', label: 'History' },
   ];
 
   if (user?.role === 'admin') {
@@ -69,10 +69,14 @@ const Navbar = () => {
             className="inline-flex min-h-[3rem] min-w-[3rem] items-center justify-center rounded-2xl border border-[color:var(--card-border)] bg-[color:var(--surface)] p-3 text-[color:var(--text-strong)] transition hover:bg-[color:var(--nav-hover-bg)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--focus-ring)] lg:hidden"
             aria-expanded={isMenuOpen}
             aria-controls="primary-navigation"
-            aria-label={isMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
+            aria-label={
+              isMenuOpen ? 'Close navigation menu' : 'Open navigation menu'
+            }
             onClick={() => setIsMenuOpen((current) => !current)}
           >
-            <span className="sr-only">{isMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}</span>
+            <span className="sr-only">
+              {isMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
+            </span>
             <div className="relative h-4 w-5">
               <span
                 className={`absolute left-0 top-0 h-0.5 w-5 rounded-full bg-current transition ${isMenuOpen ? 'translate-y-[0.45rem] rotate-45' : ''}`}
@@ -87,7 +91,9 @@ const Navbar = () => {
           </button>
         </div>
 
-        <div className={`${isMenuOpen ? 'block' : 'hidden'} border-t border-[color:var(--card-border)] lg:block`}>
+        <div
+          className={`${isMenuOpen ? 'block' : 'hidden'} border-t border-[color:var(--card-border)] lg:block`}
+        >
           <div className="flex flex-col gap-4 px-4 py-4 sm:px-5 lg:flex-row lg:items-center lg:justify-between lg:px-6 lg:py-4">
             <nav
               id="primary-navigation"
@@ -113,8 +119,12 @@ const Navbar = () => {
 
             <div className="grid gap-3 lg:flex lg:flex-wrap lg:items-center lg:justify-end">
               <div className="min-w-0 rounded-2xl border border-[color:var(--card-border)] bg-[color:var(--surface)] px-4 py-3 text-[color:var(--text-strong)] shadow-[var(--shadow-soft)]">
-                <strong className="block truncate text-sm font-semibold">{user?.name}</strong>
-                <span className="mt-1 block truncate text-xs uppercase tracking-[0.18em] text-[color:var(--text-subtle)]">{user?.role}</span>
+                <strong className="block truncate text-sm font-semibold">
+                  {user?.name}
+                </strong>
+                <span className="mt-1 block truncate text-xs uppercase tracking-[0.18em] text-[color:var(--text-subtle)]">
+                  {user?.role}
+                </span>
               </div>
               <ThemeToggleButton compact />
               <button

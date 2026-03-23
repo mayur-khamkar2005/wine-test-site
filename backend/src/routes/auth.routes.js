@@ -12,4 +12,3 @@ router.post('/login', validate(loginSchema), login);
 router.get('/me', protect, getMe);
 
 export const authRoutes = router;
-

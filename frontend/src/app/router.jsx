@@ -7,10 +7,14 @@ import AppLayout from '../layouts/AppLayout.jsx';
 import AuthLayout from '../layouts/AuthLayout.jsx';
 
 const AdminPage = lazy(() => import('../pages/admin/AdminPage.jsx'));
-const WineAnalyzerPage = lazy(() => import('../pages/analyzer/WineAnalyzerPage.jsx'));
+const WineAnalyzerPage = lazy(
+  () => import('../pages/analyzer/WineAnalyzerPage.jsx'),
+);
 const LoginPage = lazy(() => import('../pages/auth/LoginPage.jsx'));
 const RegisterPage = lazy(() => import('../pages/auth/RegisterPage.jsx'));
-const DashboardPage = lazy(() => import('../pages/dashboard/DashboardPage.jsx'));
+const DashboardPage = lazy(
+  () => import('../pages/dashboard/DashboardPage.jsx'),
+);
 const HistoryPage = lazy(() => import('../pages/history/HistoryPage.jsx'));
 
 const RouteFallback = () => <LoadingSpinner fullScreen label="Loading page" />;

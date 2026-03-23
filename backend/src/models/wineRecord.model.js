@@ -14,9 +14,9 @@ const wineInputSchema = new Schema(
     density: { type: Number, required: true },
     pH: { type: Number, required: true },
     sulphates: { type: Number, required: true },
-    alcohol: { type: Number, required: true }
+    alcohol: { type: Number, required: true },
   },
-  { _id: false }
+  { _id: false },
 );
 
 const predictionSchema = new Schema(
@@ -28,11 +28,11 @@ const predictionSchema = new Schema(
       {
         _id: false,
         name: { type: String, required: true },
-        score: { type: Number, required: true }
-      }
-    ]
+        score: { type: Number, required: true },
+      },
+    ],
   },
-  { _id: false }
+  { _id: false },
 );
 
 const wineRecordSchema = new Schema(
@@ -41,26 +41,25 @@ const wineRecordSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: 'User',
       required: true,
-      index: true
+      index: true,
     },
     inputs: {
       type: wineInputSchema,
-      required: true
+      required: true,
     },
     prediction: {
       type: predictionSchema,
-      required: true
-    }
+      required: true,
+    },
   },
   {
     timestamps: true,
     versionKey: false,
-    collection: 'wine_records'
-  }
+    collection: 'wine_records',
+  },
 );
 
 wineRecordSchema.index({ user: 1, createdAt: -1 });
 wineRecordSchema.index({ 'prediction.category': 1 });
 
 export const WineRecord = model('WineRecord', wineRecordSchema);
-

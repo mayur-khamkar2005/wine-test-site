@@ -3,9 +3,15 @@ import { useState } from 'react';
 import { createPrediction } from '../../api/wine.api.js';
 import EmptyState from '../../components/common/EmptyState.jsx';
 import FormField from '../../components/forms/FormField.jsx';
-import { formatMetricName, getCategoryClassName } from '../../utils/formatters.js';
+import {
+  formatMetricName,
+  getCategoryClassName,
+} from '../../utils/formatters.js';
 import { createInitialWineForm, wineSections } from '../../utils/wineFields.js';
-import { getApiErrorMessage, validateWineForm } from '../../utils/validation.js';
+import {
+  getApiErrorMessage,
+  validateWineForm,
+} from '../../utils/validation.js';
 
 const WineAnalyzerPage = () => {
   const [formState, setFormState] = useState(createInitialWineForm);
@@ -13,14 +19,14 @@ const WineAnalyzerPage = () => {
   const [result, setResult] = useState(null);
   const [status, setStatus] = useState({
     isSubmitting: false,
-    error: ''
+    error: '',
   });
 
   const handleChange = (event) => {
     const { name, value } = event.target;
     setFormState((current) => ({
       ...current,
-      [name]: value
+      [name]: value,
     }));
   };
 
@@ -30,7 +36,7 @@ const WineAnalyzerPage = () => {
     setResult(null);
     setStatus({
       isSubmitting: false,
-      error: ''
+      error: '',
     });
   };
 
@@ -47,15 +53,15 @@ const WineAnalyzerPage = () => {
     const payload = Object.entries(formState).reduce(
       (accumulator, [key, value]) => ({
         ...accumulator,
-        [key]: Number(value)
+        [key]: Number(value),
       }),
-      {}
+      {},
     );
 
     try {
       setStatus({
         isSubmitting: true,
-        error: ''
+        error: '',
       });
 
       const response = await createPrediction(payload);
@@ -63,14 +69,17 @@ const WineAnalyzerPage = () => {
     } catch (requestError) {
       setStatus({
         isSubmitting: false,
-        error: getApiErrorMessage(requestError, 'Unable to generate a prediction right now')
+        error: getApiErrorMessage(
+          requestError,
+          'Unable to generate a prediction right now',
+        ),
       });
       return;
     }
 
     setStatus({
       isSubmitting: false,
-      error: ''
+      error: '',
     });
   };
 
@@ -80,7 +89,10 @@ const WineAnalyzerPage = () => {
         <div>
           <span className="page-header__eyebrow">Analyzer</span>
           <h2>Predict wine quality from chemistry inputs</h2>
-          <p>Submit the standard wine parameters below to generate a score, category, and analysis snapshot.</p>
+          <p>
+            Submit the standard wine parameters below to generate a score,
+            category, and analysis snapshot.
+          </p>
         </div>
       </section>
 
@@ -117,13 +129,24 @@ const WineAnalyzerPage = () => {
             </section>
           ))}
 
-          {status.error ? <div className="status-card status-card--error">{status.error}</div> : null}
+          {status.error ? (
+            <div className="status-card status-card--error">{status.error}</div>
+          ) : null}
 
           <div className="action-row">
-            <button type="submit" className="button" disabled={status.isSubmitting} aria-busy={status.isSubmitting}>
+            <button
+              type="submit"
+              className="button"
+              disabled={status.isSubmitting}
+              aria-busy={status.isSubmitting}
+            >
               {status.isSubmitting ? 'Running Prediction...' : 'Run Prediction'}
             </button>
-            <button type="button" className="button button--secondary" onClick={handleReset}>
+            <button
+              type="button"
+              className="button button--secondary"
+              onClick={handleReset}
+            >
               Reset
             </button>
           </div>
@@ -134,14 +157,20 @@ const WineAnalyzerPage = () => {
             <div className="section-heading">
               <div>
                 <h3>Prediction Result</h3>
-                <p>Quality score, category, and the feature contribution summary.</p>
+                <p>
+                  Quality score, category, and the feature contribution summary.
+                </p>
               </div>
             </div>
 
             {result ? (
               <div className="analysis-card__content">
                 <div className="analysis-summary">
-                  <span className={getCategoryClassName(result.prediction.category)}>{result.prediction.category}</span>
+                  <span
+                    className={getCategoryClassName(result.prediction.category)}
+                  >
+                    {result.prediction.category}
+                  </span>
                   <strong>{result.prediction.score}/100</strong>
                   <p>Rating {result.prediction.rating}/10</p>
                 </div>
@@ -154,7 +183,10 @@ const WineAnalyzerPage = () => {
                         <strong>{metric.score}%</strong>
                       </div>
                       <div className="metric-list__track">
-                        <div className="metric-list__fill" style={{ width: `${metric.score}%` }} />
+                        <div
+                          className="metric-list__fill"
+                          style={{ width: `${metric.score}%` }}
+                        />
                       </div>
                     </div>
                   ))}

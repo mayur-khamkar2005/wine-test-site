@@ -3,7 +3,10 @@ import { Link, useNavigate } from 'react-router-dom';
 
 import FormField from '../../components/forms/FormField.jsx';
 import { useAuth } from '../../hooks/useAuth.js';
-import { getApiErrorMessage, validateRegisterForm } from '../../utils/validation.js';
+import {
+  getApiErrorMessage,
+  validateRegisterForm,
+} from '../../utils/validation.js';
 
 const RegisterPage = () => {
   const navigate = useNavigate();
@@ -13,19 +16,19 @@ const RegisterPage = () => {
     name: '',
     email: '',
     password: '',
-    confirmPassword: ''
+    confirmPassword: '',
   });
   const [errors, setErrors] = useState({});
   const [status, setStatus] = useState({
     isSubmitting: false,
-    error: ''
+    error: '',
   });
 
   const handleChange = (event) => {
     const { name, value } = event.target;
     setFormState((current) => ({
       ...current,
-      [name]: value
+      [name]: value,
     }));
   };
 
@@ -42,27 +45,30 @@ const RegisterPage = () => {
     try {
       setStatus({
         isSubmitting: true,
-        error: ''
+        error: '',
       });
 
       await register({
         name: formState.name.trim(),
         email: formState.email.trim(),
-        password: formState.password
+        password: formState.password,
       });
 
       navigate('/dashboard', { replace: true });
     } catch (error) {
       setStatus({
         isSubmitting: false,
-        error: getApiErrorMessage(error, 'Unable to create the account right now')
+        error: getApiErrorMessage(
+          error,
+          'Unable to create the account right now',
+        ),
       });
       return;
     }
 
     setStatus({
       isSubmitting: false,
-      error: ''
+      error: '',
     });
   };
 
@@ -71,7 +77,10 @@ const RegisterPage = () => {
       <div className="auth-card__header">
         <span className="page-header__eyebrow">Create Account</span>
         <h2>Start analyzing wine quality with a secure account.</h2>
-        <p>Registration gives you prediction history, personal dashboards, and role-based access.</p>
+        <p>
+          Registration gives you prediction history, personal dashboards, and
+          role-based access.
+        </p>
       </div>
 
       <form className="page-stack" onSubmit={handleSubmit} noValidate>
@@ -123,9 +132,16 @@ const RegisterPage = () => {
           placeholder="Re-enter password"
         />
 
-        {status.error ? <div className="status-card status-card--error">{status.error}</div> : null}
+        {status.error ? (
+          <div className="status-card status-card--error">{status.error}</div>
+        ) : null}
 
-        <button type="submit" className="button" disabled={status.isSubmitting} aria-busy={status.isSubmitting}>
+        <button
+          type="submit"
+          className="button"
+          disabled={status.isSubmitting}
+          aria-busy={status.isSubmitting}
+        >
           {status.isSubmitting ? 'Creating Account...' : 'Create Account'}
         </button>
       </form>

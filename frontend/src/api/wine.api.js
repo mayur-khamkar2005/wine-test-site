@@ -5,13 +5,17 @@ export const createPrediction = async (payload) => {
   return response.data;
 };
 
-export const getPredictionHistory = async ({ page = 1, limit = 10, category } = {}) => {
+export const getPredictionHistory = async ({
+  page = 1,
+  limit = 10,
+  category,
+} = {}) => {
   const response = await apiClient.get('/wines', {
     params: {
       page,
       limit,
-      ...(category ? { category } : {})
-    }
+      ...(category ? { category } : {}),
+    },
   });
 
   return response.data;
@@ -21,4 +25,3 @@ export const getDashboardSummary = async () => {
   const response = await apiClient.get('/dashboard/summary');
   return response.data;
 };
-

@@ -3,7 +3,10 @@ import { useEffect, useState } from 'react';
 import { getPredictionHistory } from '../../api/wine.api.js';
 import EmptyState from '../../components/common/EmptyState.jsx';
 import LoadingSpinner from '../../components/common/LoadingSpinner.jsx';
-import { formatDateTime, getCategoryClassName } from '../../utils/formatters.js';
+import {
+  formatDateTime,
+  getCategoryClassName,
+} from '../../utils/formatters.js';
 import { getApiErrorMessage } from '../../utils/validation.js';
 
 const categoryOptions = ['', 'Poor', 'Average', 'Good', 'Excellent'];
@@ -14,12 +17,12 @@ const HistoryPage = () => {
     pagination: {
       page: 1,
       pages: 1,
-      total: 0
-    }
+      total: 0,
+    },
   });
   const [filters, setFilters] = useState({
     page: 1,
-    category: ''
+    category: '',
   });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -33,7 +36,7 @@ const HistoryPage = () => {
         const response = await getPredictionHistory({
           page: filters.page,
           limit: 10,
-          category: filters.category || undefined
+          category: filters.category || undefined,
         });
 
         if (isMounted) {
@@ -42,7 +45,12 @@ const HistoryPage = () => {
         }
       } catch (requestError) {
         if (isMounted) {
-          setError(getApiErrorMessage(requestError, 'Unable to fetch prediction history'));
+          setError(
+            getApiErrorMessage(
+              requestError,
+              'Unable to fetch prediction history',
+            ),
+          );
         }
       } finally {
         if (isMounted) {
@@ -62,14 +70,14 @@ const HistoryPage = () => {
     const { value } = event.target;
     setFilters({
       page: 1,
-      category: value
+      category: value,
     });
   };
 
   const handlePageChange = (nextPage) => {
     setFilters((current) => ({
       ...current,
-      page: nextPage
+      page: nextPage,
     }));
   };
 
@@ -87,7 +95,10 @@ const HistoryPage = () => {
         <div>
           <span className="page-header__eyebrow">History</span>
           <h2>Stored predictions and quality outcomes</h2>
-          <p>Review previous analyses, filter by category, and track how each sample performed.</p>
+          <p>
+            Review previous analyses, filter by category, and track how each
+            sample performed.
+          </p>
         </div>
       </section>
 
@@ -103,7 +114,11 @@ const HistoryPage = () => {
           <div className="filter-row__controls">
             <label className="filter-row__label">
               <span>Category</span>
-              <select className="form-field__control form-field__control--select" value={filters.category} onChange={handleCategoryChange}>
+              <select
+                className="form-field__control form-field__control--select"
+                value={filters.category}
+                onChange={handleCategoryChange}
+              >
                 {categoryOptions.map((option) => (
                   <option key={option || 'all'} value={option}>
                     {option || 'All Categories'}
@@ -132,18 +147,28 @@ const HistoryPage = () => {
                 <tbody>
                   {history.records.map((record) => (
                     <tr key={record.id}>
-                      <td data-label="Date">{formatDateTime(record.createdAt)}</td>
+                      <td data-label="Date">
+                        {formatDateTime(record.createdAt)}
+                      </td>
                       <td data-label="Category">
                         <span className="table__label" aria-hidden="true">
                           Category
                         </span>
-                        <span className={getCategoryClassName(record.prediction.category)}>{record.prediction.category}</span>
+                        <span
+                          className={getCategoryClassName(
+                            record.prediction.category,
+                          )}
+                        >
+                          {record.prediction.category}
+                        </span>
                       </td>
                       <td data-label="Score">{record.prediction.score}/100</td>
                       <td data-label="Rating">{record.prediction.rating}/10</td>
                       <td data-label="Alcohol">{record.inputs.alcohol}%</td>
                       <td data-label="pH">{record.inputs.pH}</td>
-                      <td data-label="Volatile Acidity">{record.inputs.volatileAcidity}</td>
+                      <td data-label="Volatile Acidity">
+                        {record.inputs.volatileAcidity}
+                      </td>
                     </tr>
                   ))}
                 </tbody>
@@ -173,7 +198,10 @@ const HistoryPage = () => {
             </div>
           </>
         ) : (
-          <EmptyState title="History is empty" description="Predictions saved from the analyzer will appear here once you start using the app." />
+          <EmptyState
+            title="History is empty"
+            description="Predictions saved from the analyzer will appear here once you start using the app."
+          />
         )}
       </section>
     </div>

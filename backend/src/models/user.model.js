@@ -12,36 +12,36 @@ const userSchema = new Schema(
       required: true,
       trim: true,
       minlength: 2,
-      maxlength: 80
+      maxlength: 80,
     },
     email: {
       type: String,
       required: true,
       unique: true,
       lowercase: true,
-      trim: true
+      trim: true,
     },
     password: {
       type: String,
       required: true,
       minlength: 8,
-      select: false
+      select: false,
     },
     role: {
       type: String,
       enum: Object.values(USER_ROLES),
-      default: USER_ROLES.USER
+      default: USER_ROLES.USER,
     },
     lastLoginAt: {
       type: Date,
-      default: null
-    }
+      default: null,
+    },
   },
   {
     timestamps: true,
     versionKey: false,
-    collection: 'users'
-  }
+    collection: 'users',
+  },
 );
 
 userSchema.pre('save', async function hashPassword(next) {
@@ -53,9 +53,10 @@ userSchema.pre('save', async function hashPassword(next) {
   return next();
 });
 
-userSchema.methods.comparePassword = async function comparePassword(candidatePassword) {
+userSchema.methods.comparePassword = async function comparePassword(
+  candidatePassword,
+) {
   return bcrypt.compare(candidatePassword, this.password);
 };
 
 export const User = model('User', userSchema);
-

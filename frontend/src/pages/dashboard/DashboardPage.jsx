@@ -2,7 +2,10 @@ import { Suspense, lazy, useEffect, useState } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 
-import { getDashboardSummary, getPredictionHistory } from '../../api/wine.api.js';
+import {
+  getDashboardSummary,
+  getPredictionHistory,
+} from '../../api/wine.api.js';
 import LoadingSpinner from '../../components/common/LoadingSpinner.jsx';
 import DashboardInsightsPanel from '../../components/dashboard/DashboardInsightsPanel.jsx';
 import DashboardMetricCard from '../../components/dashboard/DashboardMetricCard.jsx';
@@ -19,13 +22,17 @@ import {
   filterRecordsByRange,
   formatRangeWindow,
   getRangeOption,
-  normalizeHistoryRecords
+  normalizeHistoryRecords,
 } from '../../utils/dashboard.js';
 import { formatDateTime } from '../../utils/formatters.js';
 import { getApiErrorMessage } from '../../utils/validation.js';
 
-const TrendChart = lazy(() => import('../../components/dashboard/TrendChart.jsx'));
-const CategoryChart = lazy(() => import('../../components/dashboard/CategoryChart.jsx'));
+const TrendChart = lazy(
+  () => import('../../components/dashboard/TrendChart.jsx'),
+);
+const CategoryChart = lazy(
+  () => import('../../components/dashboard/CategoryChart.jsx'),
+);
 
 const defaultSummary = {
   stats: {
@@ -33,8 +40,8 @@ const defaultSummary = {
     averageScore: 0,
     bestScore: 0,
     mostCommonCategory: 'N/A',
-    lastPredictionAt: null
-  }
+    lastPredictionAt: null,
+  },
 };
 
 const getAverageDeltaBadge = (windowAverage, baselineAverage) => {
@@ -61,8 +68,8 @@ const getChartPalette = (isDark) => ({
     Good: isDark ? '#b8c7b5' : '#6a806d',
     Average: isDark ? '#d7b067' : '#b78a3b',
     Poor: isDark ? '#8d6d78' : '#c08b9a',
-    default: isDark ? '#d6b5bf' : '#9b4d62'
-  }
+    default: isDark ? '#d6b5bf' : '#9b4d62',
+  },
 });
 
 const ChartFallback = ({ label }) => (
@@ -89,17 +96,24 @@ const DashboardPage = () => {
 
         const [summaryResponse, historyResponse] = await Promise.all([
           getDashboardSummary(),
-          getPredictionHistory({ page: 1, limit: 200 })
+          getPredictionHistory({ page: 1, limit: 200 }),
         ]);
 
         if (isMounted) {
           setSummary(summaryResponse.data.summary || defaultSummary);
-          setHistoryRecords(normalizeHistoryRecords(historyResponse.data.records));
+          setHistoryRecords(
+            normalizeHistoryRecords(historyResponse.data.records),
+          );
           setError('');
         }
       } catch (requestError) {
         if (isMounted) {
-          setError(getApiErrorMessage(requestError, 'Unable to load dashboard insights'));
+          setError(
+            getApiErrorMessage(
+              requestError,
+              'Unable to load dashboard insights',
+            ),
+          );
         }
       } finally {
         if (isMounted) {
@@ -135,7 +149,9 @@ const DashboardPage = () => {
   const rangeWindowLabel = formatRangeWindow(historyRecords, range);
   const hasAnyHistory = allTimeStats.totalPredictions > 0;
   const hasFilteredData = filteredRecords.length > 0;
-  const spotlightValue = hasFilteredData ? filteredStats.averageScore : allTimeStats.averageScore;
+  const spotlightValue = hasFilteredData
+    ? filteredStats.averageScore
+    : allTimeStats.averageScore;
 
   const primaryButtonClass = 'button';
 
@@ -151,8 +167,14 @@ const DashboardPage = () => {
           className="pointer-events-none absolute inset-x-0 top-0 h-40 bg-gradient-to-r from-[color:var(--accent-bg)] via-[color:var(--gold-bg)] to-transparent"
           aria-hidden="true"
         />
-        <div className="pointer-events-none absolute -right-10 top-10 h-36 w-36 rounded-full bg-[color:var(--accent-bg)] blur-3xl" aria-hidden="true" />
-        <div className="pointer-events-none absolute -bottom-16 left-8 h-44 w-44 rounded-full bg-[color:var(--gold-bg)] blur-3xl" aria-hidden="true" />
+        <div
+          className="pointer-events-none absolute -right-10 top-10 h-36 w-36 rounded-full bg-[color:var(--accent-bg)] blur-3xl"
+          aria-hidden="true"
+        />
+        <div
+          className="pointer-events-none absolute -bottom-16 left-8 h-44 w-44 rounded-full bg-[color:var(--gold-bg)] blur-3xl"
+          aria-hidden="true"
+        />
 
         <div className="relative grid gap-6 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,0.8fr)] lg:items-end">
           <div className="space-y-5">
@@ -162,10 +184,13 @@ const DashboardPage = () => {
               </span>
               <div className="space-y-3">
                 <h2 className="max-w-3xl text-2xl font-semibold leading-tight tracking-tight text-[color:var(--text-strong)] sm:text-3xl lg:text-4xl xl:text-5xl">
-                  Wine quality intelligence with a cleaner, sharper control center.
+                  Wine quality intelligence with a cleaner, sharper control
+                  center.
                 </h2>
                 <p className="max-w-2xl text-sm leading-7 text-[color:var(--text-soft)] sm:text-base">
-                  Monitor score momentum, inspect category behavior, and surface quick insights from your saved wine analyses without losing clarity on small screens.
+                  Monitor score momentum, inspect category behavior, and surface
+                  quick insights from your saved wine analyses without losing
+                  clarity on small screens.
                 </p>
               </div>
             </div>
@@ -182,17 +207,28 @@ const DashboardPage = () => {
               </span>
             </div>
 
-            <DashboardRangeFilter options={DASHBOARD_RANGE_OPTIONS} value={range} onChange={setRange} />
+            <DashboardRangeFilter
+              options={DASHBOARD_RANGE_OPTIONS}
+              value={range}
+              onChange={setRange}
+            />
           </div>
 
           <div className="grid grid-cols-1 gap-4 min-[480px]:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
             <div className="rounded-[1.6rem] border border-[color:var(--card-border)] bg-[color:var(--surface)] p-4 shadow-[var(--shadow-soft)] backdrop-blur-xl sm:p-5">
-              <p className="text-[0.72rem] font-semibold uppercase tracking-[0.24em] text-[color:var(--text-subtle)]">Window average</p>
+              <p className="text-[0.72rem] font-semibold uppercase tracking-[0.24em] text-[color:var(--text-subtle)]">
+                Window average
+              </p>
               <div className="mt-3 flex flex-col gap-2 min-[480px]:flex-row min-[480px]:items-end">
                 <span className="break-words text-3xl font-semibold tracking-tight text-[color:var(--text-strong)] sm:text-4xl">
                   {hasAnyHistory ? `${spotlightValue}/100` : '0/100'}
                 </span>
-                <span className="text-sm text-[color:var(--text-soft)]">{getAverageDeltaBadge(filteredStats.averageScore, allTimeStats.averageScore)}</span>
+                <span className="text-sm text-[color:var(--text-soft)]">
+                  {getAverageDeltaBadge(
+                    filteredStats.averageScore,
+                    allTimeStats.averageScore,
+                  )}
+                </span>
               </div>
               <p className="mt-3 text-sm leading-6 text-[color:var(--text-soft)]">
                 {hasFilteredData
@@ -202,19 +238,33 @@ const DashboardPage = () => {
             </div>
 
             <div className="rounded-[1.6rem] border border-[color:var(--card-border)] bg-[color:var(--surface-strong)] p-4 shadow-[var(--shadow-soft)] backdrop-blur-xl sm:p-5">
-              <p className="text-[0.72rem] font-semibold uppercase tracking-[0.24em] text-[color:var(--text-subtle)]">All-time health</p>
-              <div className="mt-3 grid grid-cols-2 gap-3">
-                <div className="rounded-2xl border border-[color:var(--card-border)] bg-[color:var(--surface)] p-3">
-                  <p className="text-xs uppercase tracking-[0.18em] text-[color:var(--text-subtle)]">Saved</p>
-                  <p className="mt-1 text-2xl font-semibold text-[color:var(--text-strong)]">{allTimeStats.totalPredictions}</p>
+              <p className="text-[0.72rem] font-semibold uppercase tracking-[0.24em] text-[color:var(--text-subtle)]">
+                All-time health
+              </p>
+              <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div className="rounded-2xl border border-[color:var(--card-border)] bg-[color:var(--surface)] p-3 min-w-0">
+                  <p className="text-xs uppercase tracking-[0.18em] text-[color:var(--text-subtle)]">
+                    Saved
+                  </p>
+                  <p className="mt-1 text-2xl font-semibold text-[color:var(--text-strong)] truncate">
+                    {allTimeStats.totalPredictions}
+                  </p>
                 </div>
-                <div className="rounded-2xl border border-[color:var(--card-border)] bg-[color:var(--surface)] p-3">
-                  <p className="text-xs uppercase tracking-[0.18em] text-[color:var(--text-subtle)]">Best</p>
-                  <p className="mt-1 text-2xl font-semibold text-[color:var(--text-strong)]">{allTimeStats.bestScore}/100</p>
+                <div className="rounded-2xl border border-[color:var(--card-border)] bg-[color:var(--surface)] p-3 min-w-0">
+                  <p className="text-xs uppercase tracking-[0.18em] text-[color:var(--text-subtle)]">
+                    Best
+                  </p>
+                  <p className="mt-1 text-2xl font-semibold text-[color:var(--text-strong)] truncate">
+                    {allTimeStats.bestScore}/100
+                  </p>
                 </div>
               </div>
+
               <p className="mt-3 text-sm leading-6 text-[color:var(--text-soft)]">
-                Top category overall: <span className="font-semibold text-[color:var(--text-strong)]">{allTimeStats.mostCommonCategory}</span>
+                Top category overall:{' '}
+                <span className="font-semibold text-[color:var(--text-strong)]">
+                  {allTimeStats.mostCommonCategory}
+                </span>
               </p>
             </div>
           </div>
@@ -228,12 +278,19 @@ const DashboardPage = () => {
         >
           <div className="flex flex-col gap-4 rounded-[1.5rem] border border-dashed border-[color:var(--card-border)] bg-[color:var(--nav-hover-bg)] p-4 sm:p-5 lg:flex-row lg:items-center lg:justify-between">
             <div className="space-y-2">
-              <h4 className="text-xl font-semibold tracking-tight text-[color:var(--text-strong)]">Start building your quality history</h4>
+              <h4 className="text-xl font-semibold tracking-tight text-[color:var(--text-strong)]">
+                Start building your quality history
+              </h4>
               <p className="max-w-xl text-sm leading-6 text-[color:var(--text-soft)]">
-                The analyzer is already wired into your account, so every new prediction will immediately feed the premium dashboard experience.
+                The analyzer is already wired into your account, so every new
+                prediction will immediately feed the premium dashboard
+                experience.
               </p>
             </div>
-            <Link to="/analyzer" className={`${primaryButtonClass} w-full sm:w-auto`}>
+            <Link
+              to="/analyzer"
+              className={`${primaryButtonClass} w-full sm:w-auto`}
+            >
               Open Analyzer
             </Link>
           </div>
@@ -254,7 +311,10 @@ const DashboardPage = () => {
           suffix="/100"
           decimals={1}
           helper="Average quality score inside the selected range."
-          badge={getAverageDeltaBadge(filteredStats.averageScore, allTimeStats.averageScore)}
+          badge={getAverageDeltaBadge(
+            filteredStats.averageScore,
+            allTimeStats.averageScore,
+          )}
           accentClassName="bg-[color:var(--gold-bg)]"
         />
         <DashboardMetricCard
@@ -280,16 +340,25 @@ const DashboardPage = () => {
           description={`Average score and prediction volume across the ${selectedRange.label.toLowerCase()} view.`}
         >
           {hasFilteredData ? (
-            <Suspense fallback={<ChartFallback label="Rendering score trend" />}>
+            <Suspense
+              fallback={<ChartFallback label="Rendering score trend" />}
+            >
               <TrendChart data={trendData} colors={palette} />
             </Suspense>
           ) : (
             <div className="flex min-h-[19rem] flex-col items-start justify-center rounded-[1.5rem] border border-dashed border-[color:var(--card-border)] bg-[color:var(--nav-hover-bg)] p-5 text-[color:var(--text-soft)]">
-              <h4 className="text-xl font-semibold text-[color:var(--text-strong)]">No trend data in this window</h4>
+              <h4 className="text-xl font-semibold text-[color:var(--text-strong)]">
+                No trend data in this window
+              </h4>
               <p className="mt-2 max-w-md text-sm leading-6 text-[color:var(--text-soft)]">
-                There were no saved analyses in the current filter. Expand the range or generate new predictions to restore the trend line.
+                There were no saved analyses in the current filter. Expand the
+                range or generate new predictions to restore the trend line.
               </p>
-              <button type="button" className={`${primaryButtonClass} mt-4 w-full sm:w-auto`} onClick={() => setRange('yearly')}>
+              <button
+                type="button"
+                className={`${primaryButtonClass} mt-4 w-full sm:w-auto`}
+                onClick={() => setRange('yearly')}
+              >
                 Switch to 12 Months
               </button>
             </div>
@@ -303,7 +372,11 @@ const DashboardPage = () => {
           <DashboardInsightsPanel
             insights={insights}
             emptyAction={
-              <button type="button" className={`${primaryButtonClass} w-full sm:w-auto`} onClick={() => setRange('yearly')}>
+              <button
+                type="button"
+                className={`${primaryButtonClass} w-full sm:w-auto`}
+                onClick={() => setRange('yearly')}
+              >
                 View broader range
               </button>
             }
@@ -317,15 +390,24 @@ const DashboardPage = () => {
           description="See how prediction quality is split across the current range."
         >
           {hasFilteredData ? (
-            <Suspense fallback={<ChartFallback label="Rendering category chart" />}>
-              <CategoryChart data={categoryData} colors={palette.category} total={filteredStats.totalPredictions} />
+            <Suspense
+              fallback={<ChartFallback label="Rendering category chart" />}
+            >
+              <CategoryChart
+                data={categoryData}
+                colors={palette.category}
+                total={filteredStats.totalPredictions}
+              />
             </Suspense>
           ) : (
             <div className="flex min-h-[19rem] items-center justify-center rounded-[1.5rem] border border-dashed border-[color:var(--card-border)] bg-[color:var(--nav-hover-bg)] p-5 text-center text-[color:var(--text-soft)]">
               <div className="space-y-2">
-                <h4 className="text-xl font-semibold text-[color:var(--text-strong)]">No categories to compare</h4>
+                <h4 className="text-xl font-semibold text-[color:var(--text-strong)]">
+                  No categories to compare
+                </h4>
                 <p className="max-w-md text-sm leading-6 text-[color:var(--text-soft)]">
-                  This range does not contain predictions yet, so the quality mix will appear after the next saved analysis.
+                  This range does not contain predictions yet, so the quality
+                  mix will appear after the next saved analysis.
                 </p>
               </div>
             </div>

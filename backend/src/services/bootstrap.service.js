@@ -23,6 +23,6 @@ export const ensureAdminUser = async () => {
     email: env.adminEmail,
     password: env.adminPassword,
     role: USER_ROLES.ADMIN,
-    lastLoginAt: null
+    lastLoginAt: null,
   });
 };

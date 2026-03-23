@@ -5,9 +5,9 @@ export const AUTH_UNAUTHORIZED_EVENT = 'wine-quality:unauthorized';
 const apiClient = axios.create({
   baseURL: import.meta.env.VITE_API_URL || 'http://localhost:5000/api/v1',
   headers: {
-    'Content-Type': 'application/json'
+    'Content-Type': 'application/json',
   },
-  timeout: 15000
+  timeout: 15000,
 });
 
 apiClient.interceptors.request.use((config) => {
@@ -27,16 +27,20 @@ apiClient.interceptors.response.use(
     const status = error.response?.status;
     const requestUrl = error.config?.url || '';
 
-    if (status === 401 && !requestUrl.includes('/auth/login') && !requestUrl.includes('/auth/register')) {
+    if (
+      status === 401 &&
+      !requestUrl.includes('/auth/login') &&
+      !requestUrl.includes('/auth/register')
+    ) {
       window.dispatchEvent(new Event(AUTH_UNAUTHORIZED_EVENT));
     }
 
     return Promise.reject(
       error.response?.data || {
-        message: error.message || 'Request failed'
-      }
+        message: error.message || 'Request failed',
+      },
     );
-  }
+  },
 );
 
 export default apiClient;

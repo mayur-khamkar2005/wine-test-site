@@ -16,7 +16,12 @@ export const validateLoginForm = ({ email, password }) => {
   return errors;
 };
 
-export const validateRegisterForm = ({ name, email, password, confirmPassword }) => {
+export const validateRegisterForm = ({
+  name,
+  email,
+  password,
+  confirmPassword,
+}) => {
   const errors = {};
 
   if (name.trim().length < 2) {
@@ -28,7 +33,8 @@ export const validateRegisterForm = ({ name, email, password, confirmPassword })
   }
 
   if (!/^(?=.*[A-Za-z])(?=.*\d).{8,}$/.test(password)) {
-    errors.password = 'Password must contain at least one letter, one number, and 8 characters';
+    errors.password =
+      'Password must contain at least one letter, one number, and 8 characters';
   }
 
   if (confirmPassword !== password) {
@@ -57,7 +63,8 @@ export const validateWineForm = (formState) => {
     }
 
     if (numericValue < field.min || numericValue > field.max) {
-      errors[field.name] = `${field.label} must be between ${field.min} and ${field.max}`;
+      errors[field.name] =
+        `${field.label} must be between ${field.min} and ${field.max}`;
     }
   });
 
@@ -66,4 +73,3 @@ export const validateWineForm = (formState) => {
 
 export const getApiErrorMessage = (error, fallbackMessage) =>
   error?.message || error?.errors?.[0]?.message || fallbackMessage;
-

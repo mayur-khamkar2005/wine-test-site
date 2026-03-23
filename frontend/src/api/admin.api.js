@@ -7,7 +7,7 @@ export const getAdminOverview = async () => {
 
 export const getAdminUsers = async ({ page = 1, limit = 10 } = {}) => {
   const response = await apiClient.get('/admin/users', {
-    params: { page, limit }
+    params: { page, limit },
   });
 
   return response.data;
@@ -15,9 +15,8 @@ export const getAdminUsers = async ({ page = 1, limit = 10 } = {}) => {
 
 export const getAdminRecords = async ({ page = 1, limit = 10 } = {}) => {
   const response = await apiClient.get('/admin/records', {
-    params: { page, limit }
+    params: { page, limit },
   });
 
   return response.data;
 };
-

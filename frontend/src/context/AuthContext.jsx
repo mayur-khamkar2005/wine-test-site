@@ -10,7 +10,7 @@ const initialState = {
   user: null,
   token: '',
   isAuthenticated: false,
-  isLoading: true
+  isLoading: true,
 };
 
 export const AuthContext = createContext(null);
@@ -21,7 +21,7 @@ export const AuthProvider = ({ children }) => {
   const setSignedOutState = () => {
     setAuthState({
       ...initialState,
-      isLoading: false
+      isLoading: false,
     });
   };
 
@@ -33,7 +33,7 @@ export const AuthProvider = ({ children }) => {
       user,
       token,
       isAuthenticated: true,
-      isLoading: false
+      isLoading: false,
     });
   };
 
@@ -65,7 +65,7 @@ export const AuthProvider = ({ children }) => {
             user: parsedUser,
             token,
             isAuthenticated: true,
-            isLoading: true
+            isLoading: true,
           });
         } catch (error) {
           localStorage.removeItem(USER_KEY);
@@ -77,7 +77,7 @@ export const AuthProvider = ({ children }) => {
         if (isMounted) {
           persistSession({
             user: response.data.user,
-            token
+            token,
           });
         }
       } catch (error) {
@@ -128,7 +128,7 @@ export const AuthProvider = ({ children }) => {
         ...authState,
         login,
         register,
-        logout
+        logout,
       }}
     >
       {children}

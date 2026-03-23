@@ -4,46 +4,47 @@ const RANGE_CONFIG = {
     label: '7 Days',
     caption: 'Short-term momentum',
     days: 7,
-    granularity: 'day'
+    granularity: 'day',
   },
   monthly: {
     key: 'monthly',
     label: '30 Days',
     caption: 'Monthly performance',
     days: 30,
-    granularity: 'day'
+    granularity: 'day',
   },
   yearly: {
     key: 'yearly',
     label: '12 Months',
     caption: 'Long-range trend',
     days: 365,
-    granularity: 'month'
-  }
+    granularity: 'month',
+  },
 };
 
 const DAY_MS = 24 * 60 * 60 * 1000;
 
 const dayFormatter = new Intl.DateTimeFormat('en-IN', {
   month: 'short',
-  day: 'numeric'
+  day: 'numeric',
 });
 
 const monthFormatter = new Intl.DateTimeFormat('en-IN', {
   month: 'short',
-  year: '2-digit'
+  year: '2-digit',
 });
 
 const rangeFormatter = new Intl.DateTimeFormat('en-IN', {
   month: 'short',
   day: 'numeric',
-  year: 'numeric'
+  year: 'numeric',
 });
 
 const createDayKey = (date) =>
   `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
 
-const createMonthKey = (date) => `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
+const createMonthKey = (date) =>
+  `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
 
 const roundToOne = (value) => Number(value.toFixed(1));
 
@@ -52,11 +53,15 @@ const getAverageScore = (records) => {
     return 0;
   }
 
-  const total = records.reduce((sum, record) => sum + record.prediction.score, 0);
+  const total = records.reduce(
+    (sum, record) => sum + record.prediction.score,
+    0,
+  );
   return roundToOne(total / records.length);
 };
 
-const getUniqueDayCount = (records) => new Set(records.map((record) => createDayKey(record.createdAtDate))).size;
+const getUniqueDayCount = (records) =>
+  new Set(records.map((record) => createDayKey(record.createdAtDate))).size;
 
 const getReferenceDate = (records) => {
   if (!records.length) {
@@ -66,15 +71,32 @@ const getReferenceDate = (records) => {
   return records[0].createdAtDate;
 };
 
-const getRangeConfig = (rangeKey) => RANGE_CONFIG[rangeKey] || RANGE_CONFIG.monthly;
+const getRangeConfig = (rangeKey) =>
+  RANGE_CONFIG[rangeKey] || RANGE_CONFIG.monthly;
 
 const getRangeWindow = (records, rangeKey) => {
   const config = getRangeConfig(rangeKey);
   const referenceDate = getReferenceDate(records);
 
   if (config.granularity === 'month') {
-    const end = new Date(referenceDate.getFullYear(), referenceDate.getMonth() + 1, 0, 23, 59, 59, 999);
-    const start = new Date(referenceDate.getFullYear(), referenceDate.getMonth() - 11, 1, 0, 0, 0, 0);
+    const end = new Date(
+      referenceDate.getFullYear(),
+      referenceDate.getMonth() + 1,
+      0,
+      23,
+      59,
+      59,
+      999,
+    );
+    const start = new Date(
+      referenceDate.getFullYear(),
+      referenceDate.getMonth() - 11,
+      1,
+      0,
+      0,
+      0,
+      0,
+    );
     return { config, start, end };
   }
 
@@ -90,11 +112,15 @@ const getRangeWindow = (records, rangeKey) => {
 const buildDayBuckets = (start, end) => {
   const buckets = [];
 
-  for (let cursor = new Date(start); cursor <= end; cursor = new Date(cursor.getTime() + DAY_MS)) {
+  for (
+    let cursor = new Date(start);
+    cursor <= end;
+    cursor = new Date(cursor.getTime() + DAY_MS)
+  ) {
     buckets.push({
       key: createDayKey(cursor),
       label: dayFormatter.format(cursor),
-      date: new Date(cursor)
+      date: new Date(cursor),
     });
   }
 
@@ -112,7 +138,7 @@ const buildMonthBuckets = (start, end) => {
     buckets.push({
       key: createMonthKey(cursor),
       label: monthFormatter.format(cursor),
-      date: new Date(cursor)
+      date: new Date(cursor),
     });
   }
 
@@ -124,18 +150,19 @@ const buildAlcoholInsights = (records) => {
     {
       key: 'light',
       label: 'lighter wines',
-      predicate: (record) => record.inputs.alcohol < 11.5
+      predicate: (record) => record.inputs.alcohol < 11.5,
     },
     {
       key: 'balanced',
       label: 'balanced wines',
-      predicate: (record) => record.inputs.alcohol >= 11.5 && record.inputs.alcohol < 13.5
+      predicate: (record) =>
+        record.inputs.alcohol >= 11.5 && record.inputs.alcohol < 13.5,
     },
     {
       key: 'strong',
       label: 'strong wines',
-      predicate: (record) => record.inputs.alcohol >= 13.5
-    }
+      predicate: (record) => record.inputs.alcohol >= 13.5,
+    },
   ]
     .map((band) => {
       const matchingRecords = records.filter(band.predicate);
@@ -143,11 +170,14 @@ const buildAlcoholInsights = (records) => {
       return {
         ...band,
         count: matchingRecords.length,
-        averageScore: getAverageScore(matchingRecords)
+        averageScore: getAverageScore(matchingRecords),
       };
     })
     .filter((band) => band.count > 0)
-    .sort((left, right) => right.averageScore - left.averageScore || right.count - left.count);
+    .sort(
+      (left, right) =>
+        right.averageScore - left.averageScore || right.count - left.count,
+    );
 
   return bands[0] || null;
 };
@@ -157,7 +187,9 @@ const buildMomentumInsight = (records) => {
     return null;
   }
 
-  const chronologicalRecords = [...records].sort((left, right) => left.createdAtDate - right.createdAtDate);
+  const chronologicalRecords = [...records].sort(
+    (left, right) => left.createdAtDate - right.createdAtDate,
+  );
   const splitIndex = Math.floor(chronologicalRecords.length / 2);
   const previousPeriod = chronologicalRecords.slice(0, splitIndex);
   const currentPeriod = chronologicalRecords.slice(splitIndex);
@@ -176,18 +208,21 @@ const buildMomentumInsight = (records) => {
       rawDelta,
       direction: 'flat',
       previousAverage,
-      currentAverage
+      currentAverage,
     };
   }
 
-  const percentage = previousAverage === 0 ? 100 : Math.round(Math.abs((rawDelta / previousAverage) * 100));
+  const percentage =
+    previousAverage === 0
+      ? 100
+      : Math.round(Math.abs((rawDelta / previousAverage) * 100));
 
   return {
     percentage,
     rawDelta,
     direction: rawDelta > 0 ? 'up' : 'down',
     previousAverage,
-    currentAverage
+    currentAverage,
   };
 };
 
@@ -204,7 +239,7 @@ export const normalizeHistoryRecords = (records = []) =>
 
       return {
         ...record,
-        createdAtDate
+        createdAtDate,
       };
     })
     .filter(Boolean)
@@ -213,26 +248,37 @@ export const normalizeHistoryRecords = (records = []) =>
 export const filterRecordsByRange = (records, rangeKey) => {
   const { start, end } = getRangeWindow(records, rangeKey);
 
-  return records.filter((record) => record.createdAtDate >= start && record.createdAtDate <= end);
+  return records.filter(
+    (record) => record.createdAtDate >= start && record.createdAtDate <= end,
+  );
 };
 
 export const buildTrendSeries = (records, rangeKey) => {
   const { config, start, end } = getRangeWindow(records, rangeKey);
-  const buckets = config.granularity === 'month' ? buildMonthBuckets(start, end) : buildDayBuckets(start, end);
+  const buckets =
+    config.granularity === 'month'
+      ? buildMonthBuckets(start, end)
+      : buildDayBuckets(start, end);
   const filteredRecords = filterRecordsByRange(records, rangeKey);
   const aggregateMap = new Map();
 
   filteredRecords.forEach((record) => {
-    const bucketKey = config.granularity === 'month' ? createMonthKey(record.createdAtDate) : createDayKey(record.createdAtDate);
+    const bucketKey =
+      config.granularity === 'month'
+        ? createMonthKey(record.createdAtDate)
+        : createDayKey(record.createdAtDate);
     const currentBucket = aggregateMap.get(bucketKey) || {
       totalScore: 0,
       count: 0,
-      bestScore: 0
+      bestScore: 0,
     };
 
     currentBucket.totalScore += record.prediction.score;
     currentBucket.count += 1;
-    currentBucket.bestScore = Math.max(currentBucket.bestScore, record.prediction.score);
+    currentBucket.bestScore = Math.max(
+      currentBucket.bestScore,
+      record.prediction.score,
+    );
     aggregateMap.set(bucketKey, currentBucket);
   });
 
@@ -244,7 +290,7 @@ export const buildTrendSeries = (records, rangeKey) => {
         label: bucket.label,
         averageScore: 0,
         count: 0,
-        bestScore: 0
+        bestScore: 0,
       };
     }
 
@@ -252,7 +298,7 @@ export const buildTrendSeries = (records, rangeKey) => {
       label: bucket.label,
       averageScore: roundToOne(bucketData.totalScore / bucketData.count),
       count: bucketData.count,
-      bestScore: bucketData.bestScore
+      bestScore: bucketData.bestScore,
     };
   });
 };
@@ -263,14 +309,17 @@ export const buildCategoryBreakdown = (records) =>
       const category = record.prediction.category;
       categoryMap[category] = (categoryMap[category] || 0) + 1;
       return categoryMap;
-    }, {})
+    }, {}),
   )
     .map(([category, count]) => ({
       category,
       count,
-      share: Math.round((count / records.length) * 100)
+      share: Math.round((count / records.length) * 100),
     }))
-    .sort((left, right) => right.count - left.count || left.category.localeCompare(right.category));
+    .sort(
+      (left, right) =>
+        right.count - left.count || left.category.localeCompare(right.category),
+    );
 
 export const buildDashboardSnapshot = (records) => {
   if (!records.length) {
@@ -280,12 +329,14 @@ export const buildDashboardSnapshot = (records) => {
       bestScore: 0,
       mostCommonCategory: 'N/A',
       activeDays: 0,
-      qualityRate: 0
+      qualityRate: 0,
     };
   }
 
   const categoryBreakdown = buildCategoryBreakdown(records);
-  const qualityCount = records.filter((record) => ['Good', 'Excellent'].includes(record.prediction.category)).length;
+  const qualityCount = records.filter((record) =>
+    ['Good', 'Excellent'].includes(record.prediction.category),
+  ).length;
 
   return {
     totalPredictions: records.length,
@@ -293,7 +344,7 @@ export const buildDashboardSnapshot = (records) => {
     bestScore: Math.max(...records.map((record) => record.prediction.score)),
     mostCommonCategory: categoryBreakdown[0]?.category || 'N/A',
     activeDays: getUniqueDayCount(records),
-    qualityRate: Math.round((qualityCount / records.length) * 100)
+    qualityRate: Math.round((qualityCount / records.length) * 100),
   };
 };
 
@@ -306,7 +357,11 @@ export const buildDashboardInsights = (records, rangeKey) => {
   const momentum = buildMomentumInsight(records);
   const topCategory = buildCategoryBreakdown(records)[0];
   const topAlcoholBand = buildAlcoholInsights(records);
-  const bestRecord = records.reduce((bestSoFar, record) => (record.prediction.score > bestSoFar.prediction.score ? record : bestSoFar), records[0]);
+  const bestRecord = records.reduce(
+    (bestSoFar, record) =>
+      record.prediction.score > bestSoFar.prediction.score ? record : bestSoFar,
+    records[0],
+  );
 
   if (momentum) {
     insights.push({
@@ -320,7 +375,7 @@ export const buildDashboardInsights = (records, rangeKey) => {
       description:
         momentum.direction === 'flat'
           ? `Both halves of this ${getRangeConfig(rangeKey).label.toLowerCase()} window are averaging around ${momentum.currentAverage}/100.`
-          : `The current part of the range is averaging ${momentum.currentAverage}/100 versus ${momentum.previousAverage}/100 earlier in the period.`
+          : `The current part of the range is averaging ${momentum.currentAverage}/100 versus ${momentum.previousAverage}/100 earlier in the period.`,
     });
   }
 
@@ -330,7 +385,7 @@ export const buildDashboardInsights = (records, rangeKey) => {
       eyebrow: 'Pattern',
       tone: 'violet',
       title: `Best performance is showing up in ${topAlcoholBand.label}`,
-      description: `${topAlcoholBand.label.charAt(0).toUpperCase() + topAlcoholBand.label.slice(1)} are averaging ${topAlcoholBand.averageScore}/100 in this view.`
+      description: `${topAlcoholBand.label.charAt(0).toUpperCase() + topAlcoholBand.label.slice(1)} are averaging ${topAlcoholBand.averageScore}/100 in this view.`,
     });
   }
 
@@ -340,7 +395,7 @@ export const buildDashboardInsights = (records, rangeKey) => {
       eyebrow: 'Mix',
       tone: 'sky',
       title: `${topCategory.category} is leading the quality mix`,
-      description: `${topCategory.share}% of predictions in this window landed in the ${topCategory.category.toLowerCase()} band.`
+      description: `${topCategory.share}% of predictions in this window landed in the ${topCategory.category.toLowerCase()} band.`,
     });
   }
 
@@ -349,7 +404,7 @@ export const buildDashboardInsights = (records, rangeKey) => {
     eyebrow: 'Highlight',
     tone: 'rose',
     title: `Peak score reached ${bestRecord.prediction.score}/100`,
-    description: `The strongest recent result was recorded on ${rangeFormatter.format(bestRecord.createdAtDate)} with a ${bestRecord.prediction.category.toLowerCase()} classification.`
+    description: `The strongest recent result was recorded on ${rangeFormatter.format(bestRecord.createdAtDate)} with a ${bestRecord.prediction.category.toLowerCase()} classification.`,
   });
 
   return insights.slice(0, 3);

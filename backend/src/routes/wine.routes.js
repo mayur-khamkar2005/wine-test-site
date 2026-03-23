@@ -1,6 +1,9 @@
 import { Router } from 'express';
 
-import { createPrediction, getHistory } from '../controllers/wine.controller.js';
+import {
+  createPrediction,
+  getHistory,
+} from '../controllers/wine.controller.js';
 import { protect } from '../middlewares/auth.middleware.js';
 import { validate } from '../middlewares/validate.middleware.js';
 import { wineInputSchema } from '../validators/wine.validator.js';
@@ -12,4 +15,3 @@ router.post('/predict', validate(wineInputSchema), createPrediction);
 router.get('/', getHistory);
 
 export const wineRoutes = router;
-

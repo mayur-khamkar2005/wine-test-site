@@ -1,6 +1,10 @@
 import { Router } from 'express';
 
-import { getOverview, getRecords, getUsers } from '../controllers/admin.controller.js';
+import {
+  getOverview,
+  getRecords,
+  getUsers,
+} from '../controllers/admin.controller.js';
 import { USER_ROLES } from '../constants/roles.js';
 import { authorize, protect } from '../middlewares/auth.middleware.js';
 

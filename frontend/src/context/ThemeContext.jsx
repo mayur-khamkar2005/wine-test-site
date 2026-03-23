@@ -4,7 +4,7 @@ const THEME_STORAGE_KEY = 'app-theme';
 
 export const THEMES = {
   LIGHT: 'light',
-  DARK: 'dark'
+  DARK: 'dark',
 };
 
 const getInitialTheme = () => {
@@ -13,7 +13,9 @@ const getInitialTheme = () => {
   }
 
   const storedTheme = localStorage.getItem(THEME_STORAGE_KEY);
-  return storedTheme === THEMES.DARK || storedTheme === 'mono' ? THEMES.DARK : THEMES.LIGHT;
+  return storedTheme === THEMES.DARK || storedTheme === 'mono'
+    ? THEMES.DARK
+    : THEMES.LIGHT;
 };
 
 export const ThemeContext = createContext(null);
@@ -27,12 +29,15 @@ export const ThemeProvider = ({ children }) => {
     }
 
     document.documentElement.dataset.theme = theme;
-    document.documentElement.style.colorScheme = theme === THEMES.DARK ? 'dark' : 'light';
+    document.documentElement.style.colorScheme =
+      theme === THEMES.DARK ? 'dark' : 'light';
     localStorage.setItem(THEME_STORAGE_KEY, theme);
   }, [theme]);
 
   const toggleTheme = () => {
-    setTheme((currentTheme) => (currentTheme === THEMES.LIGHT ? THEMES.DARK : THEMES.LIGHT));
+    setTheme((currentTheme) =>
+      currentTheme === THEMES.LIGHT ? THEMES.DARK : THEMES.LIGHT,
+    );
   };
 
   return (
@@ -42,7 +47,7 @@ export const ThemeProvider = ({ children }) => {
         setTheme,
         toggleTheme,
         isDark: theme === THEMES.DARK,
-        isMonochrome: theme === THEMES.DARK
+        isMonochrome: theme === THEMES.DARK,
       }}
     >
       {children}

@@ -1,6 +1,15 @@
 import { useId } from 'react';
 
-const FormField = ({ label, helper, error, as = 'input', children, className = '', id, ...props }) => {
+const FormField = ({
+  label,
+  helper,
+  error,
+  as = 'input',
+  children,
+  className = '',
+  id,
+  ...props
+}) => {
   const generatedId = useId();
   const fieldId = id || generatedId;
   const helperId = `${fieldId}-helper`;
@@ -32,7 +41,10 @@ const FormField = ({ label, helper, error, as = 'input', children, className = '
       )}
 
       {helperText ? (
-        <span id={helperId} className={`form-field__helper${error ? ' form-field__helper--error' : ''}`}>
+        <span
+          id={helperId}
+          className={`form-field__helper${error ? ' form-field__helper--error' : ''}`}
+        >
           {helperText}
         </span>
       ) : null}

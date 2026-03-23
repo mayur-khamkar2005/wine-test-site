@@ -6,4 +6,3 @@ const EmptyState = ({ title, description }) => (
 );
 
 export default EmptyState;
-

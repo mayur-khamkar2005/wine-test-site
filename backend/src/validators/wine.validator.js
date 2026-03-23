@@ -1,7 +1,10 @@
 import { z } from 'zod';
 
 const boundedNumber = (label, min, max) =>
-  z.coerce.number().min(min, `${label} must be at least ${min}`).max(max, `${label} must be at most ${max}`);
+  z.coerce
+    .number()
+    .min(min, `${label} must be at least ${min}`)
+    .max(max, `${label} must be at most ${max}`);
 
 export const wineInputSchema = z
   .object({
@@ -15,7 +18,6 @@ export const wineInputSchema = z
     density: boundedNumber('Density', 0.98, 1.1),
     pH: boundedNumber('pH', 2.5, 4.5),
     sulphates: boundedNumber('Sulphates', 0, 3),
-    alcohol: boundedNumber('Alcohol', 0, 20)
+    alcohol: boundedNumber('Alcohol', 0, 20),
   })
   .strict();
-

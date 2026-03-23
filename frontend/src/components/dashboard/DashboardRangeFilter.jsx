@@ -23,8 +23,12 @@ const DashboardRangeFilter = ({ options, value, onChange }) => {
               whileHover={prefersReducedMotion ? {} : { y: -2 }}
               whileTap={prefersReducedMotion ? {} : { scale: 0.98 }}
             >
-              <span className="block text-sm font-semibold tracking-tight">{option.label}</span>
-              <span className="mt-1 block text-xs text-[color:var(--text-subtle)]">{option.caption}</span>
+              <span className="block text-sm font-semibold tracking-tight">
+                {option.label}
+              </span>
+              <span className="mt-1 block text-xs text-[color:var(--text-subtle)]">
+                {option.caption}
+              </span>
             </motion.button>
           );
         })}
