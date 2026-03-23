@@ -52,7 +52,7 @@ const getAverageDeltaBadge = (windowAverage, baselineAverage) => {
   const delta = Number((windowAverage - baselineAverage).toFixed(1));
 
   if (delta === 0) {
-    return 'In line with all-time';
+    return 'cleard';
   }
 
   return `${delta > 0 ? '+' : ''}${delta} vs all-time`;
@@ -80,7 +80,7 @@ const ChartFallback = ({ label }) => (
 
 const DashboardPage = () => {
   const prefersReducedMotion = useReducedMotion();
-  const { isDark } = useTheme();
+  const { isDark } = useTheme(); 
   const [summary, setSummary] = useState(defaultSummary);
   const [historyRecords, setHistoryRecords] = useState([]);
   const [range, setRange] = useState('monthly');

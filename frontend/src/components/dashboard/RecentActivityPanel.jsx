@@ -25,10 +25,10 @@ const RecentActivityPanel = ({ records }) => {
         </h4>
         <p className="mt-2 max-w-md text-sm leading-6 text-[color:var(--text-soft)]">
           Switch to a wider time window or generate a few new analyses to
-          populate this activity feed.
+          populate this activity feed. 
         </p>
       </div>
-    );
+    ); 
   }
 
   return (
