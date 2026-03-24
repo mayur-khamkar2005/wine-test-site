@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 import FormField from '../../components/forms/FormField.jsx';
+import StatusMessage from '../../components/common/StatusMessage.jsx';
 import { useAuth } from '../../hooks/useAuth.js';
 import {
   getApiErrorMessage,
@@ -133,7 +134,10 @@ const RegisterPage = () => {
         />
 
         {status.error ? (
-          <div className="status-card status-card--error">{status.error}</div>
+          <StatusMessage
+            title="Unable to create account"
+            message={status.error}
+          />
         ) : null}
 
         <button

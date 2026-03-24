@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { getPredictionHistory } from '../../api/wine.api.js';
 import EmptyState from '../../components/common/EmptyState.jsx';
 import LoadingSpinner from '../../components/common/LoadingSpinner.jsx';
+import StatusMessage from '../../components/common/StatusMessage.jsx';
 import {
   formatDateTime,
   getCategoryClassName,
@@ -86,7 +87,7 @@ const HistoryPage = () => {
   }
 
   if (error) {
-    return <div className="status-card status-card--error">{error}</div>;
+    return <StatusMessage title="Unable to load history" message={error} />;
   }
 
   return (

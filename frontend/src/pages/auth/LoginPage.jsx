@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 import FormField from '../../components/forms/FormField.jsx';
+import StatusMessage from '../../components/common/StatusMessage.jsx';
 import { useAuth } from '../../hooks/useAuth.js';
 import {
   getApiErrorMessage,
@@ -107,7 +108,7 @@ const LoginPage = () => {
         />
 
         {status.error ? (
-          <div className="status-card status-card--error">{status.error}</div>
+          <StatusMessage title="Unable to sign in" message={status.error} />
         ) : null}
 
         <button
