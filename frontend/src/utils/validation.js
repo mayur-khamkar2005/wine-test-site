@@ -71,5 +71,33 @@ export const validateWineForm = (formState) => {
   return errors;
 };
 
-export const getApiErrorMessage = (error, fallbackMessage) =>
-  error?.message || error?.errors?.[0]?.message || fallbackMessage;
+export const getApiErrorMessage = (error, fallbackMessage) => {
+  if (!error) {
+    return fallbackMessage;
+  }
+
+  if (typeof error === 'string' && error.trim()) {
+    return error.trim();
+  }
+
+  if (typeof error?.message === 'string' && error.message.trim()) {
+    return error.message.trim();
+  }
+
+  const firstErrorMessage = error?.errors?.find(
+    (entry) => typeof entry?.message === 'string' && entry.message.trim(),
+  )?.message;
+
+  if (firstErrorMessage) {
+    return firstErrorMessage.trim();
+  }
+
+  if (
+    typeof error?.response?.data?.message === 'string' &&
+    error.response.data.message.trim()
+  ) {
+    return error.response.data.message.trim();
+  }
+
+  return fallbackMessage;
+};

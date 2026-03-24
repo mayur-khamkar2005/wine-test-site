@@ -13,154 +13,154 @@
   --space-xl: 2rem;
   --space-2xl: 2.5rem;
   --card-padding: clamp(1rem, 2vw, 1.5rem);
-  --bg-deep: #2b0e19;
-  --bg-mid: #5a1730;
-  --bg-soft: #f7f2ed;
-  --card: rgba(255, 250, 246, 0.96);
-  --surface: rgba(255, 252, 249, 0.98);
+  --bg-deep: #080808;
+  --bg-mid: #171717;
+  --bg-soft: #f5f5f5;
+  --card: rgba(255, 255, 255, 0.94);
+  --surface: rgba(255, 255, 255, 0.98);
   --surface-strong: rgba(255, 255, 255, 1);
-  --card-border: rgba(109, 23, 49, 0.12);
-  --card-border-strong: rgba(109, 23, 49, 0.2);
-  --text-strong: #241317;
-  --text-soft: #5d4950;
-  --text-subtle: #806a72;
-  --rose: #6d1731;
-  --rose-soft: #9b4d62;
-  --gold: #b78a3b;
-  --green: #677d6a;
-  --shadow: 0 24px 60px rgba(57, 16, 31, 0.12);
-  --shadow-soft: 0 18px 40px rgba(57, 16, 31, 0.08);
+  --card-border: rgba(17, 17, 17, 0.1);
+  --card-border-strong: rgba(17, 17, 17, 0.16);
+  --text-strong: #111111;
+  --text-soft: #3f3f46;
+  --text-subtle: #71717a;
+  --rose: #111111;
+  --rose-soft: #3f3f46;
+  --gold: #52525b;
+  --green: #52525b;
+  --shadow: 0 24px 60px rgba(0, 0, 0, 0.08);
+  --shadow-soft: 0 18px 40px rgba(0, 0, 0, 0.05);
   --radius-xl: 28px;
   --radius-lg: 20px;
   --radius-md: 14px;
-  --selection-bg: rgba(109, 23, 49, 0.16);
-  --focus-ring: rgba(109, 23, 49, 0.24);
-  --nav-hover-bg: rgba(109, 23, 49, 0.07);
-  --surface-outline-rose: rgba(109, 23, 49, 0.08);
-  --surface-outline-gold: rgba(183, 138, 59, 0.12);
-  --surface-outline-green: rgba(103, 125, 106, 0.12);
-  --input-focus-border: rgba(109, 23, 49, 0.28);
-  --input-focus-ring: rgba(109, 23, 49, 0.08);
-  --button-primary-end: #8b2d49;
-  --button-text: #fffaf8;
-  --button-shadow: 0 14px 28px rgba(109, 23, 49, 0.16);
-  --button-shadow-hover: 0 18px 34px rgba(109, 23, 49, 0.22);
-  --control-hover-shadow: 0 8px 18px rgba(57, 16, 31, 0.05);
-  --status-error-bg: rgba(217, 108, 95, 0.12);
-  --status-error-border: rgba(217, 108, 95, 0.28);
-  --status-error-text: #8c2d24;
-  --analysis-gradient-start: rgba(109, 23, 49, 0.06);
-  --analysis-gradient-end: rgba(183, 138, 59, 0.08);
-  --metric-track: rgba(109, 23, 49, 0.08);
-  --metric-fill-start: #b78a3b;
-  --metric-fill-end: #6d1731;
-  --table-row-hover: rgba(109, 23, 49, 0.04);
-  --pill-excellent-bg: rgba(109, 23, 49, 0.12);
-  --pill-good-bg: rgba(103, 125, 106, 0.12);
-  --pill-average-bg: rgba(183, 138, 59, 0.14);
-  --pill-average-text: #835f1e;
-  --pill-poor-bg: rgba(155, 77, 98, 0.12);
-  --pill-poor-text: #7b3044;
-  --pill-muted-bg: rgba(93, 73, 80, 0.08);
-  --pill-muted-text: #4a3740;
-  --tooltip-bg: rgba(255, 251, 248, 0.98);
-  --chart-primary: #6d1731;
-  --chart-poor: #c08b9a;
-  --chart-average: #b78a3b;
-  --chart-good: #6a806d;
-  --chart-excellent: #571225;
-  --chart-grid: rgba(109, 23, 49, 0.12);
-  --chart-axis: #6e5a61;
-  --backdrop-line: rgba(109, 23, 49, 0.14);
-  --liquid: rgba(109, 23, 49, 0.12);
-  --liquid-soft: rgba(155, 77, 98, 0.12);
-  --liquid-glow: rgba(183, 138, 59, 0.1);
-  --accent-bg: rgba(109, 23, 49, 0.1);
-  --accent-border: rgba(109, 23, 49, 0.18);
-  --accent-text: #6d1731;
-  --gold-bg: rgba(183, 138, 59, 0.12);
-  --gold-border: rgba(183, 138, 59, 0.2);
-  --gold-text: #835f1e;
-  --sage-bg: rgba(103, 125, 106, 0.12);
-  --sage-border: rgba(103, 125, 106, 0.18);
-  --sage-text: #4e6252;
-  --plum-bg: rgba(155, 77, 98, 0.12);
-  --plum-border: rgba(155, 77, 98, 0.18);
-  --plum-text: #7b3044;
+  --selection-bg: rgba(17, 17, 17, 0.14);
+  --focus-ring: rgba(17, 17, 17, 0.18);
+  --nav-hover-bg: rgba(17, 17, 17, 0.05);
+  --surface-outline-rose: rgba(17, 17, 17, 0.05);
+  --surface-outline-gold: rgba(17, 17, 17, 0.08);
+  --surface-outline-green: rgba(17, 17, 17, 0.12);
+  --input-focus-border: rgba(17, 17, 17, 0.22);
+  --input-focus-ring: rgba(17, 17, 17, 0.07);
+  --button-primary-end: #3f3f46;
+  --button-text: #ffffff;
+  --button-shadow: 0 14px 28px rgba(0, 0, 0, 0.12);
+  --button-shadow-hover: 0 18px 34px rgba(0, 0, 0, 0.18);
+  --control-hover-shadow: 0 8px 18px rgba(0, 0, 0, 0.05);
+  --status-error-bg: rgba(17, 17, 17, 0.04);
+  --status-error-border: rgba(17, 17, 17, 0.14);
+  --status-error-text: #111111;
+  --analysis-gradient-start: rgba(17, 17, 17, 0.04);
+  --analysis-gradient-end: rgba(113, 113, 122, 0.08);
+  --metric-track: rgba(17, 17, 17, 0.08);
+  --metric-fill-start: #71717a;
+  --metric-fill-end: #111111;
+  --table-row-hover: rgba(17, 17, 17, 0.03);
+  --pill-excellent-bg: rgba(17, 17, 17, 0.08);
+  --pill-good-bg: rgba(63, 63, 70, 0.08);
+  --pill-average-bg: rgba(113, 113, 122, 0.1);
+  --pill-average-text: #3f3f46;
+  --pill-poor-bg: rgba(161, 161, 170, 0.16);
+  --pill-poor-text: #27272a;
+  --pill-muted-bg: rgba(113, 113, 122, 0.1);
+  --pill-muted-text: #3f3f46;
+  --tooltip-bg: rgba(255, 255, 255, 0.98);
+  --chart-primary: #111111;
+  --chart-poor: #a1a1aa;
+  --chart-average: #71717a;
+  --chart-good: #52525b;
+  --chart-excellent: #000000;
+  --chart-grid: rgba(17, 17, 17, 0.1);
+  --chart-axis: #52525b;
+  --backdrop-line: rgba(17, 17, 17, 0.1);
+  --liquid: rgba(17, 17, 17, 0.08);
+  --liquid-soft: rgba(113, 113, 122, 0.08);
+  --liquid-glow: rgba(17, 17, 17, 0.06);
+  --accent-bg: rgba(17, 17, 17, 0.08);
+  --accent-border: rgba(17, 17, 17, 0.14);
+  --accent-text: #111111;
+  --gold-bg: rgba(63, 63, 70, 0.08);
+  --gold-border: rgba(63, 63, 70, 0.14);
+  --gold-text: #27272a;
+  --sage-bg: rgba(82, 82, 91, 0.08);
+  --sage-border: rgba(82, 82, 91, 0.14);
+  --sage-text: #27272a;
+  --plum-bg: rgba(113, 113, 122, 0.1);
+  --plum-border: rgba(113, 113, 122, 0.16);
+  --plum-text: #27272a;
 }
 
 :root[data-theme='dark'] {
-  --bg-deep: #12070d;
-  --bg-mid: #251019;
-  --bg-soft: #0f090c;
-  --card: rgba(25, 15, 20, 0.94);
-  --surface: rgba(32, 19, 25, 0.97);
-  --surface-strong: rgba(41, 24, 32, 0.99);
-  --card-border: rgba(240, 221, 225, 0.14);
-  --card-border-strong: rgba(240, 221, 225, 0.2);
-  --text-strong: #fbf4f2;
-  --text-soft: #e1cdd2;
-  --text-subtle: #bda9af;
-  --rose: #f0dde1;
-  --rose-soft: #d6b5bf;
-  --gold: #d7b067;
-  --green: #c6d2c1;
+  --bg-deep: #000000;
+  --bg-mid: #111111;
+  --bg-soft: #09090b;
+  --card: rgba(18, 18, 18, 0.94);
+  --surface: rgba(24, 24, 27, 0.97);
+  --surface-strong: rgba(32, 32, 36, 0.99);
+  --card-border: rgba(255, 255, 255, 0.1);
+  --card-border-strong: rgba(255, 255, 255, 0.16);
+  --text-strong: #fafafa;
+  --text-soft: #d4d4d8;
+  --text-subtle: #a1a1aa;
+  --rose: #ffffff;
+  --rose-soft: #d4d4d8;
+  --gold: #e4e4e7;
+  --green: #e4e4e7;
   --shadow: 0 24px 60px rgba(0, 0, 0, 0.42);
   --shadow-soft: 0 18px 36px rgba(0, 0, 0, 0.26);
-  --selection-bg: rgba(240, 221, 225, 0.22);
-  --focus-ring: rgba(240, 221, 225, 0.35);
-  --nav-hover-bg: rgba(240, 221, 225, 0.08);
-  --surface-outline-rose: rgba(240, 221, 225, 0.08);
-  --surface-outline-gold: rgba(215, 176, 103, 0.1);
-  --surface-outline-green: rgba(198, 210, 193, 0.1);
-  --input-focus-border: rgba(240, 221, 225, 0.38);
-  --input-focus-ring: rgba(240, 221, 225, 0.08);
-  --button-primary-end: #d7b067;
-  --button-text: #170b10;
+  --selection-bg: rgba(255, 255, 255, 0.16);
+  --focus-ring: rgba(255, 255, 255, 0.24);
+  --nav-hover-bg: rgba(255, 255, 255, 0.06);
+  --surface-outline-rose: rgba(255, 255, 255, 0.06);
+  --surface-outline-gold: rgba(255, 255, 255, 0.1);
+  --surface-outline-green: rgba(255, 255, 255, 0.14);
+  --input-focus-border: rgba(255, 255, 255, 0.24);
+  --input-focus-ring: rgba(255, 255, 255, 0.07);
+  --button-primary-end: #d4d4d8;
+  --button-text: #111111;
   --button-shadow: 0 14px 28px rgba(0, 0, 0, 0.3);
   --button-shadow-hover: 0 18px 34px rgba(0, 0, 0, 0.36);
   --control-hover-shadow: 0 8px 18px rgba(255, 255, 255, 0.05);
-  --status-error-bg: rgba(255, 255, 255, 0.08);
-  --status-error-border: rgba(255, 255, 255, 0.16);
-  --status-error-text: #f4f4f4;
-  --analysis-gradient-start: rgba(240, 221, 225, 0.08);
-  --analysis-gradient-end: rgba(215, 176, 103, 0.08);
-  --metric-track: rgba(240, 221, 225, 0.1);
-  --metric-fill-start: #d7b067;
-  --metric-fill-end: #f0dde1;
-  --table-row-hover: rgba(240, 221, 225, 0.05);
-  --pill-excellent-bg: rgba(240, 221, 225, 0.16);
-  --pill-good-bg: rgba(198, 210, 193, 0.14);
-  --pill-average-bg: rgba(215, 176, 103, 0.16);
-  --pill-average-text: #f2e4c8;
-  --pill-poor-bg: rgba(214, 181, 191, 0.16);
-  --pill-poor-text: #edd9df;
+  --status-error-bg: rgba(255, 255, 255, 0.04);
+  --status-error-border: rgba(255, 255, 255, 0.12);
+  --status-error-text: #fafafa;
+  --analysis-gradient-start: rgba(255, 255, 255, 0.04);
+  --analysis-gradient-end: rgba(161, 161, 170, 0.08);
+  --metric-track: rgba(255, 255, 255, 0.08);
+  --metric-fill-start: #a1a1aa;
+  --metric-fill-end: #ffffff;
+  --table-row-hover: rgba(255, 255, 255, 0.03);
+  --pill-excellent-bg: rgba(255, 255, 255, 0.1);
+  --pill-good-bg: rgba(212, 212, 216, 0.1);
+  --pill-average-bg: rgba(161, 161, 170, 0.12);
+  --pill-average-text: #f4f4f5;
+  --pill-poor-bg: rgba(113, 113, 122, 0.16);
+  --pill-poor-text: #fafafa;
   --pill-muted-bg: rgba(255, 255, 255, 0.08);
-  --pill-muted-text: #efefef;
-  --tooltip-bg: rgba(14, 14, 14, 0.96);
-  --chart-primary: #f0dde1;
-  --chart-poor: #8d6d78;
-  --chart-average: #d7b067;
-  --chart-good: #b8c7b5;
+  --pill-muted-text: #f4f4f5;
+  --tooltip-bg: rgba(18, 18, 18, 0.96);
+  --chart-primary: #f5f5f5;
+  --chart-poor: #71717a;
+  --chart-average: #a1a1aa;
+  --chart-good: #d4d4d8;
   --chart-excellent: #ffffff;
-  --chart-grid: rgba(240, 221, 225, 0.12);
-  --chart-axis: #ccb8be;
-  --backdrop-line: rgba(240, 221, 225, 0.2);
-  --liquid: rgba(240, 221, 225, 0.14);
-  --liquid-soft: rgba(214, 181, 191, 0.1);
-  --liquid-glow: rgba(215, 176, 103, 0.1);
-  --accent-bg: rgba(240, 221, 225, 0.1);
-  --accent-border: rgba(240, 221, 225, 0.18);
-  --accent-text: #f7e9ed;
-  --gold-bg: rgba(215, 176, 103, 0.12);
-  --gold-border: rgba(215, 176, 103, 0.18);
-  --gold-text: #f2dfbc;
-  --sage-bg: rgba(198, 210, 193, 0.12);
-  --sage-border: rgba(198, 210, 193, 0.18);
-  --sage-text: #e4ece2;
-  --plum-bg: rgba(214, 181, 191, 0.12);
-  --plum-border: rgba(214, 181, 191, 0.18);
-  --plum-text: #f0dde3;
+  --chart-grid: rgba(255, 255, 255, 0.12);
+  --chart-axis: #d4d4d8;
+  --backdrop-line: rgba(255, 255, 255, 0.16);
+  --liquid: rgba(255, 255, 255, 0.08);
+  --liquid-soft: rgba(161, 161, 170, 0.08);
+  --liquid-glow: rgba(255, 255, 255, 0.05);
+  --accent-bg: rgba(255, 255, 255, 0.08);
+  --accent-border: rgba(255, 255, 255, 0.14);
+  --accent-text: #fafafa;
+  --gold-bg: rgba(212, 212, 216, 0.08);
+  --gold-border: rgba(212, 212, 216, 0.14);
+  --gold-text: #f4f4f5;
+  --sage-bg: rgba(161, 161, 170, 0.08);
+  --sage-border: rgba(161, 161, 170, 0.14);
+  --sage-text: #f4f4f5;
+  --plum-bg: rgba(113, 113, 122, 0.12);
+  --plum-border: rgba(113, 113, 122, 0.18);
+  --plum-text: #fafafa;
 }
 
 * {
@@ -192,17 +192,9 @@ body {
   line-height: 1.6;
   color: var(--text-strong);
   background:
-    radial-gradient(
-      circle at top left,
-      rgba(155, 77, 98, 0.12),
-      transparent 22%
-    ),
-    radial-gradient(
-      circle at bottom right,
-      rgba(183, 138, 59, 0.12),
-      transparent 20%
-    ),
-    linear-gradient(180deg, #fbf7f3 0%, #f7f1eb 48%, #efe6de 100%);
+    radial-gradient(circle at top left, rgba(17, 17, 17, 0.05), transparent 22%),
+    radial-gradient(circle at bottom right, rgba(17, 17, 17, 0.04), transparent 20%),
+    linear-gradient(180deg, #ffffff 0%, #f5f5f5 48%, #ededed 100%);
   overflow-x: clip;
   overscroll-behavior-x: none;
   transition:
@@ -323,17 +315,9 @@ p {
 
 :root[data-theme='dark'] body {
   background:
-    radial-gradient(
-      circle at top left,
-      rgba(214, 181, 191, 0.1),
-      transparent 24%
-    ),
-    radial-gradient(
-      circle at bottom right,
-      rgba(215, 176, 103, 0.08),
-      transparent 22%
-    ),
-    linear-gradient(145deg, #0f070b 0%, #1a0c13 45%, #211118 100%);
+    radial-gradient(circle at top left, rgba(255, 255, 255, 0.05), transparent 24%),
+    radial-gradient(circle at bottom right, rgba(255, 255, 255, 0.04), transparent 22%),
+    linear-gradient(145deg, #000000 0%, #0f0f10 45%, #151517 100%);
 }
 
 .animated-backdrop {
@@ -558,7 +542,7 @@ p {
 }
 
 .stat-card--slate {
-  box-shadow: inset 0 0 0 1px rgba(79, 70, 68, 0.1);
+  box-shadow: inset 0 0 0 1px rgba(17, 17, 17, 0.12);
 }
 
 .stat-card__label {
@@ -732,7 +716,7 @@ p {
 }
 
 .form-field__control--error {
-  border-color: rgba(201, 79, 79, 0.6);
+  border-color: var(--status-error-border);
 }
 
 .form-field__helper {
@@ -742,7 +726,7 @@ p {
 }
 
 .form-field__helper--error {
-  color: #bb473d;
+  color: var(--status-error-text);
 }
 
 .button {
@@ -873,9 +857,22 @@ p {
 }
 
 .status-card {
+  display: grid;
+  gap: 6px;
   padding: 14px 16px;
   border-radius: 16px;
   line-height: 1.5;
+  box-shadow: var(--shadow-soft);
+}
+
+.status-card__title {
+  color: var(--text-strong);
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.status-card__message {
+  color: var(--text-soft);
 }
 
 .status-card--error {
@@ -1108,13 +1105,9 @@ p {
   z-index: 1;
   padding: var(--space-xl) var(--container-padding);
   background:
-    radial-gradient(
-      circle at top left,
-      rgba(198, 150, 45, 0.22),
-      transparent 24%
-    ),
+    radial-gradient(circle at top left, rgba(255, 255, 255, 0.08), transparent 24%),
     linear-gradient(140deg, var(--bg-deep) 0%, var(--bg-mid) 100%);
-  color: #f9efe8;
+  color: #fafafa;
   display: grid;
   align-content: center;
   gap: var(--space-lg);
@@ -1122,12 +1115,8 @@ p {
 
 :root[data-theme='dark'] .auth-hero {
   background:
-    radial-gradient(
-      circle at top left,
-      rgba(255, 255, 255, 0.12),
-      transparent 24%
-    ),
-    linear-gradient(140deg, #050505 0%, #121212 100%);
+    radial-gradient(circle at top left, rgba(255, 255, 255, 0.08), transparent 24%),
+    linear-gradient(140deg, #000000 0%, #111111 100%);
 }
 
 .auth-hero__top {
@@ -1153,7 +1142,7 @@ p {
 
 .auth-hero p {
   max-width: 60ch;
-  color: rgba(249, 239, 232, 0.82);
+  color: rgba(255, 255, 255, 0.78);
   line-height: 1.75;
 }
 
@@ -1420,7 +1409,7 @@ p {
     display: table-cell;
     text-align: left;
     padding: 16px 12px;
-    border-bottom: 1px solid rgba(117, 63, 57, 0.12);
+    border-bottom: 1px solid var(--card-border);
     vertical-align: top;
   }
 

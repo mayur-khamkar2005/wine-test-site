@@ -7,6 +7,7 @@ import {
   getPredictionHistory,
 } from '../../api/wine.api.js';
 import LoadingSpinner from '../../components/common/LoadingSpinner.jsx';
+import StatusMessage from '../../components/common/StatusMessage.jsx';
 import DashboardInsightsPanel from '../../components/dashboard/DashboardInsightsPanel.jsx';
 import DashboardMetricCard from '../../components/dashboard/DashboardMetricCard.jsx';
 import DashboardRangeFilter from '../../components/dashboard/DashboardRangeFilter.jsx';
@@ -52,23 +53,23 @@ const getAverageDeltaBadge = (windowAverage, baselineAverage) => {
   const delta = Number((windowAverage - baselineAverage).toFixed(1));
 
   if (delta === 0) {
-    return 'cleard';
+    return 'In line with all-time';
   }
 
   return `${delta > 0 ? '+' : ''}${delta} vs all-time`;
 };
 
 const getChartPalette = (isDark) => ({
-  primary: isDark ? '#f0dde1' : '#6d1731',
-  secondary: isDark ? '#d7b067' : '#b78a3b',
-  grid: isDark ? 'rgba(240, 221, 225, 0.12)' : 'rgba(109, 23, 49, 0.12)',
-  axis: isDark ? '#ccb8be' : '#6e5a61',
+  primary: isDark ? '#f5f5f5' : '#111111',
+  secondary: isDark ? '#a1a1aa' : '#52525b',
+  grid: isDark ? 'rgba(255, 255, 255, 0.12)' : 'rgba(17, 17, 17, 0.1)',
+  axis: isDark ? '#d4d4d8' : '#52525b',
   category: {
-    Excellent: isDark ? '#ffffff' : '#571225',
-    Good: isDark ? '#b8c7b5' : '#6a806d',
-    Average: isDark ? '#d7b067' : '#b78a3b',
-    Poor: isDark ? '#8d6d78' : '#c08b9a',
-    default: isDark ? '#d6b5bf' : '#9b4d62',
+    Excellent: isDark ? '#ffffff' : '#000000',
+    Good: isDark ? '#d4d4d8' : '#3f3f46',
+    Average: isDark ? '#a1a1aa' : '#71717a',
+    Poor: isDark ? '#71717a' : '#a1a1aa',
+    default: isDark ? '#e4e4e7' : '#d4d4d8',
   },
 });
 
@@ -80,7 +81,7 @@ const ChartFallback = ({ label }) => (
 
 const DashboardPage = () => {
   const prefersReducedMotion = useReducedMotion();
-  const { isDark } = useTheme(); 
+  const { isDark } = useTheme();
   const [summary, setSummary] = useState(defaultSummary);
   const [historyRecords, setHistoryRecords] = useState([]);
   const [range, setRange] = useState('monthly');
@@ -134,7 +135,7 @@ const DashboardPage = () => {
   }
 
   if (error) {
-    return <div className="status-card status-card--error">{error}</div>;
+    return <StatusMessage title="Unable to load dashboard" message={error} />;
   }
 
   const palette = getChartPalette(isDark);

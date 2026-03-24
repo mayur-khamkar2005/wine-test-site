@@ -21,6 +21,7 @@ import ChartCard from '../../components/common/ChartCard.jsx';
 import EmptyState from '../../components/common/EmptyState.jsx';
 import LoadingSpinner from '../../components/common/LoadingSpinner.jsx';
 import StatCard from '../../components/common/StatCard.jsx';
+import StatusMessage from '../../components/common/StatusMessage.jsx';
 import { useTheme } from '../../hooks/useTheme.js';
 import {
   formatDateTime,
@@ -38,30 +39,30 @@ const AdminPage = () => {
 
   const chartTheme = isDark
     ? {
-        primary: '#f0dde1',
-        poor: '#8d6d78',
-        average: '#d7b067',
-        good: '#b8c7b5',
+        primary: '#f5f5f5',
+        poor: '#71717a',
+        average: '#a1a1aa',
+        good: '#d4d4d8',
         excellent: '#ffffff',
-        grid: 'rgba(240, 221, 225, 0.12)',
-        axis: '#ccb8be',
-        tooltipBackground: 'rgba(14, 14, 14, 0.96)',
-        tooltipBorder: 'rgba(240, 221, 225, 0.14)',
-        tooltipText: '#fbf4f2',
+        grid: 'rgba(255, 255, 255, 0.12)',
+        axis: '#d4d4d8',
+        tooltipBackground: 'rgba(18, 18, 18, 0.96)',
+        tooltipBorder: 'rgba(255, 255, 255, 0.12)',
+        tooltipText: '#fafafa',
         shadow: '0 18px 36px rgba(0, 0, 0, 0.26)',
       }
     : {
-        primary: '#6d1731',
-        poor: '#c08b9a',
-        average: '#b78a3b',
-        good: '#6a806d',
-        excellent: '#571225',
-        grid: 'rgba(109, 23, 49, 0.12)',
-        axis: '#6e5a61',
-        tooltipBackground: 'rgba(255, 251, 248, 0.98)',
-        tooltipBorder: 'rgba(109, 23, 49, 0.16)',
-        tooltipText: '#241317',
-        shadow: '0 18px 40px rgba(57, 16, 31, 0.12)',
+        primary: '#111111',
+        poor: '#a1a1aa',
+        average: '#71717a',
+        good: '#3f3f46',
+        excellent: '#000000',
+        grid: 'rgba(17, 17, 17, 0.1)',
+        axis: '#52525b',
+        tooltipBackground: 'rgba(255, 255, 255, 0.98)',
+        tooltipBorder: 'rgba(17, 17, 17, 0.12)',
+        tooltipText: '#111111',
+        shadow: '0 18px 40px rgba(0, 0, 0, 0.08)',
       };
 
   const categoryColors = {
@@ -124,7 +125,7 @@ const AdminPage = () => {
   }
 
   if (error) {
-    return <div className="status-card status-card--error">{error}</div>;
+    return <StatusMessage title="Unable to load admin data" message={error} />;
   }
 
   const stats = overview?.stats || {
@@ -192,7 +193,7 @@ const AdminPage = () => {
                     {overview.categoryBreakdown.map((entry) => (
                       <Cell
                         key={entry.category}
-                        fill={categoryColors[entry.category] || '#7e6c67'}
+                        fill={categoryColors[entry.category] || '#a1a1aa'}
                       />
                     ))}
                   </Pie>

@@ -2,6 +2,7 @@ import { useState } from 'react';
 
 import { createPrediction } from '../../api/wine.api.js';
 import EmptyState from '../../components/common/EmptyState.jsx';
+import StatusMessage from '../../components/common/StatusMessage.jsx';
 import FormField from '../../components/forms/FormField.jsx';
 import {
   formatMetricName,
@@ -130,7 +131,10 @@ const WineAnalyzerPage = () => {
           ))}
 
           {status.error ? (
-            <div className="status-card status-card--error">{status.error}</div>
+            <StatusMessage
+              title="Prediction request failed"
+              message={status.error}
+            />
           ) : null}
 
           <div className="action-row">
