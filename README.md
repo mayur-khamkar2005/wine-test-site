@@ -9,7 +9,7 @@ The project includes:
 - Admin panel for platform monitoring
 - Responsive light/dark UI with a wine-inspired design system
 
-## Tech Stack
+## total Tech Stack
 
 ### Frontend
 - React 18
