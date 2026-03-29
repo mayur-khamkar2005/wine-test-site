@@ -25,8 +25,10 @@ import StatusMessage from '../../components/common/StatusMessage.jsx';
 import { useTheme } from '../../hooks/useTheme.js';
 import {
   formatDateTime,
+  formatScaleValue,
   getCategoryClassName,
 } from '../../utils/formatters.js';
+import { normalizePredictionRecordList } from '../../utils/predictionRecords.js';
 import { getApiErrorMessage } from '../../utils/validation.js';
 
 const AdminPage = () => {
@@ -95,9 +97,11 @@ const AdminPage = () => {
           ]);
 
         if (isMounted) {
-          setOverview(overviewResponse.data.overview);
-          setUsers(usersResponse.data.users);
-          setRecords(recordsResponse.data.records);
+          setOverview(overviewResponse?.data?.overview || null);
+          setUsers(usersResponse?.data?.users || []);
+          setRecords(
+            normalizePredictionRecordList(recordsResponse?.data?.records),
+          );
           setError('');
         }
       } catch (requestError) {
@@ -278,10 +282,10 @@ const AdminPage = () => {
                       {user.analytics.predictionCount}
                     </td>
                     <td data-label="Average Score">
-                      {user.analytics.averageScore}/100
+                      {formatScaleValue(user.analytics?.averageScore, 100)}
                     </td>
                     <td data-label="Last Prediction">
-                      {formatDateTime(user.analytics.lastPredictionAt)}
+                      {formatDateTime(user.analytics?.lastPredictionAt)}
                     </td>
                   </tr>
                 ))}
@@ -326,9 +330,6 @@ const AdminPage = () => {
                       </div>
                     </td>
                     <td data-label="Category">
-                      <span className="table__label" aria-hidden="true">
-                        Category
-                      </span>
                       <span
                         className={getCategoryClassName(
                           record.prediction.category,
@@ -337,8 +338,12 @@ const AdminPage = () => {
                         {record.prediction.category}
                       </span>
                     </td>
-                    <td data-label="Score">{record.prediction.score}/100</td>
-                    <td data-label="Rating">{record.prediction.rating}/10</td>
+                    <td data-label="Score">
+                      {formatScaleValue(record.prediction.score, 100)}
+                    </td>
+                    <td data-label="Rating">
+                      {formatScaleValue(record.prediction.rating, 10)}
+                    </td>
                     <td data-label="Created">
                       {formatDateTime(record.createdAt)}
                     </td>

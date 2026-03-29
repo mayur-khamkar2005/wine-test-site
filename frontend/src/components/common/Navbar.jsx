@@ -120,10 +120,10 @@ const Navbar = () => {
             <div className="grid gap-3 lg:flex lg:flex-wrap lg:items-center lg:justify-end">
               <div className="min-w-0 rounded-2xl border border-[color:var(--card-border)] bg-[color:var(--surface)] px-4 py-3 text-[color:var(--text-strong)] shadow-[var(--shadow-soft)]">
                 <strong className="block truncate text-sm font-semibold">
-                  {user?.name}
+                  {user?.name || 'Workspace User'}
                 </strong>
                 <span className="mt-1 block truncate text-xs uppercase tracking-[0.18em] text-[color:var(--text-subtle)]">
-                  {user?.role}
+                  {user?.role || 'member'}
                 </span>
               </div>
               <ThemeToggleButton compact />

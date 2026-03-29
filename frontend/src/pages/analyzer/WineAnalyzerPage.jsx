@@ -5,9 +5,12 @@ import EmptyState from '../../components/common/EmptyState.jsx';
 import StatusMessage from '../../components/common/StatusMessage.jsx';
 import FormField from '../../components/forms/FormField.jsx';
 import {
+  formatNumericValue,
   formatMetricName,
+  formatScaleValue,
   getCategoryClassName,
 } from '../../utils/formatters.js';
+import { normalizePredictionRecord } from '../../utils/predictionRecords.js';
 import { createInitialWineForm, wineSections } from '../../utils/wineFields.js';
 import {
   getApiErrorMessage,
@@ -66,7 +69,15 @@ const WineAnalyzerPage = () => {
       });
 
       const response = await createPrediction(payload);
-      setResult(response.data.record);
+      const nextRecord = response?.data?.record
+        ? normalizePredictionRecord(response.data.record, 'latest-prediction')
+        : null;
+
+      if (!nextRecord) {
+        throw new Error('Prediction result was empty');
+      }
+
+      setResult(nextRecord);
     } catch (requestError) {
       setStatus({
         isSubmitting: false,
@@ -175,26 +186,38 @@ const WineAnalyzerPage = () => {
                   >
                     {result.prediction.category}
                   </span>
-                  <strong>{result.prediction.score}/100</strong>
-                  <p>Rating {result.prediction.rating}/10</p>
+                  <strong>{formatScaleValue(result.prediction.score, 100)}</strong>
+                  <p>Rating {formatScaleValue(result.prediction.rating, 10)}</p>
                 </div>
 
-                <div className="metric-list">
-                  {result.prediction.metrics.map((metric) => (
-                    <div key={metric.name} className="metric-list__row">
-                      <div className="metric-list__header">
-                        <span>{formatMetricName(metric.name)}</span>
-                        <strong>{metric.score}%</strong>
+                {result.prediction.metrics.length > 0 ? (
+                  <div className="metric-list">
+                    {result.prediction.metrics.map((metric) => (
+                      <div key={metric.name} className="metric-list__row">
+                        <div className="metric-list__header">
+                          <span>{formatMetricName(metric.name)}</span>
+                          <strong>
+                            {formatNumericValue(metric.score, {
+                              maximumFractionDigits: 0,
+                              suffix: '%',
+                            })}
+                          </strong>
+                        </div>
+                        <div className="metric-list__track">
+                          <div
+                            className="metric-list__fill"
+                            style={{ width: `${metric.score}%` }}
+                          />
+                        </div>
                       </div>
-                      <div className="metric-list__track">
-                        <div
-                          className="metric-list__fill"
-                          style={{ width: `${metric.score}%` }}
-                        />
-                      </div>
-                    </div>
-                  ))}
-                </div>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="muted-text">
+                    Feature contribution details are not available for this
+                    prediction yet.
+                  </p>
+                )}
               </div>
             ) : (
               <EmptyState

@@ -1,3 +1,5 @@
+import { normalizePredictionRecordList } from './predictionRecords.js';
+
 const RANGE_CONFIG = {
   weekly: {
     key: 'weekly',
@@ -150,18 +152,23 @@ const buildAlcoholInsights = (records) => {
     {
       key: 'light',
       label: 'lighter wines',
-      predicate: (record) => record.inputs.alcohol < 11.5,
+      predicate: (record) =>
+        typeof record.inputs.alcohol === 'number' &&
+        record.inputs.alcohol < 11.5,
     },
     {
       key: 'balanced',
       label: 'balanced wines',
       predicate: (record) =>
+        typeof record.inputs.alcohol === 'number' &&
         record.inputs.alcohol >= 11.5 && record.inputs.alcohol < 13.5,
     },
     {
       key: 'strong',
       label: 'strong wines',
-      predicate: (record) => record.inputs.alcohol >= 13.5,
+      predicate: (record) =>
+        typeof record.inputs.alcohol === 'number' &&
+        record.inputs.alcohol >= 13.5,
     },
   ]
     .map((band) => {
@@ -229,7 +236,7 @@ const buildMomentumInsight = (records) => {
 export const DASHBOARD_RANGE_OPTIONS = Object.values(RANGE_CONFIG);
 
 export const normalizeHistoryRecords = (records = []) =>
-  records
+  normalizePredictionRecordList(records)
     .map((record) => {
       const createdAtDate = new Date(record.createdAt);
 
