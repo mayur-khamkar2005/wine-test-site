@@ -1,39 +1,49 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { getPredictionHistory } from '../../api/wine.api.js';
 import EmptyState from '../../components/common/EmptyState.jsx';
 import LoadingSpinner from '../../components/common/LoadingSpinner.jsx';
 import StatusMessage from '../../components/common/StatusMessage.jsx';
-import {
-  formatDateTime,
-  getCategoryClassName,
-} from '../../utils/formatters.js';
+import HistoryPagination from '../../components/history/HistoryPagination.jsx';
+import HistoryTable from '../../components/history/HistoryTable.jsx';
+import { normalizePaginatedPredictionHistory } from '../../utils/predictionRecords.js';
 import { getApiErrorMessage } from '../../utils/validation.js';
 
 const categoryOptions = ['', 'Poor', 'Average', 'Good', 'Excellent'];
+const initialHistoryState = {
+  records: [],
+  pagination: {
+    page: 1,
+    pages: 1,
+    total: 0,
+  },
+};
 
 const HistoryPage = () => {
-  const [history, setHistory] = useState({
-    records: [],
-    pagination: {
-      page: 1,
-      pages: 1,
-      total: 0,
-    },
-  });
+  const hasLoadedHistoryRef = useRef(false);
+  const [history, setHistory] = useState(initialHistoryState);
   const [filters, setFilters] = useState({
     page: 1,
     category: '',
   });
+  const [requestVersion, setRequestVersion] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [isRefreshing, setIsRefreshing] = useState(false);
   const [error, setError] = useState('');
 
   useEffect(() => {
     let isMounted = true;
 
     const loadHistory = async () => {
+      const isInlineRefresh = hasLoadedHistoryRef.current;
+
       try {
-        setLoading(true);
+        if (isInlineRefresh) {
+          setIsRefreshing(true);
+        } else {
+          setLoading(true);
+        }
+
         const response = await getPredictionHistory({
           page: filters.page,
           limit: 10,
@@ -41,11 +51,24 @@ const HistoryPage = () => {
         });
 
         if (isMounted) {
-          setHistory(response.data);
+          const normalizedHistory = normalizePaginatedPredictionHistory(
+            response?.data,
+          );
+
+          if (normalizedHistory.pagination.page !== filters.page) {
+            setFilters((current) => ({
+              ...current,
+              page: normalizedHistory.pagination.page,
+            }));
+          }
+
+          setHistory(normalizedHistory);
+          hasLoadedHistoryRef.current = true;
           setError('');
         }
       } catch (requestError) {
         if (isMounted) {
+          hasLoadedHistoryRef.current = true;
           setError(
             getApiErrorMessage(
               requestError,
@@ -56,6 +79,7 @@ const HistoryPage = () => {
       } finally {
         if (isMounted) {
           setLoading(false);
+          setIsRefreshing(false);
         }
       }
     };
@@ -65,7 +89,7 @@ const HistoryPage = () => {
     return () => {
       isMounted = false;
     };
-  }, [filters.page, filters.category]);
+  }, [filters.page, filters.category, requestVersion]);
 
   const handleCategoryChange = (event) => {
     const { value } = event.target;
@@ -82,12 +106,16 @@ const HistoryPage = () => {
     }));
   };
 
-  if (loading) {
-    return <LoadingSpinner fullScreen label="Loading prediction history" />;
-  }
+  const handleRetry = () => {
+    setRequestVersion((current) => current + 1);
+  };
 
-  if (error) {
-    return <StatusMessage title="Unable to load history" message={error} />;
+  const hasRecords = history.records.length > 0;
+  const hasCategoryFilter = Boolean(filters.category);
+  const totalLabel = `${history.pagination.total} record${history.pagination.total === 1 ? '' : 's'}${hasCategoryFilter ? ` in ${filters.category}` : ' stored'}`;
+
+  if (loading && !hasRecords && !error) {
+    return <LoadingSpinner fullScreen label="Loading prediction history" />;
   }
 
   return (
@@ -108,7 +136,7 @@ const HistoryPage = () => {
           <div className="section-heading">
             <div>
               <h3>Prediction History</h3>
-              <p>{history.pagination.total} records stored</p>
+              <p>{totalLabel}</p>
             </div>
           </div>
 
@@ -130,80 +158,52 @@ const HistoryPage = () => {
           </div>
         </div>
 
-        {history.records.length > 0 ? (
-          <>
-            <div className="table-wrapper">
-              <table className="table table--responsive">
-                <thead>
-                  <tr>
-                    <th>Date</th>
-                    <th>Category</th>
-                    <th>Score</th>
-                    <th>Rating</th>
-                    <th>Alcohol</th>
-                    <th>pH</th>
-                    <th>Volatile Acidity</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {history.records.map((record) => (
-                    <tr key={record.id}>
-                      <td data-label="Date">
-                        {formatDateTime(record.createdAt)}
-                      </td>
-                      <td data-label="Category">
-                        <span className="table__label" aria-hidden="true">
-                          Category
-                        </span>
-                        <span
-                          className={getCategoryClassName(
-                            record.prediction.category,
-                          )}
-                        >
-                          {record.prediction.category}
-                        </span>
-                      </td>
-                      <td data-label="Score">{record.prediction.score}/100</td>
-                      <td data-label="Rating">{record.prediction.rating}/10</td>
-                      <td data-label="Alcohol">{record.inputs.alcohol}%</td>
-                      <td data-label="pH">{record.inputs.pH}</td>
-                      <td data-label="Volatile Acidity">
-                        {record.inputs.volatileAcidity}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+        {isRefreshing ? (
+          <p className="muted-text" role="status" aria-live="polite">
+            Refreshing history...
+          </p>
+        ) : null}
 
-            <div className="pagination">
+        {error ? (
+          <div className="page-stack">
+            <StatusMessage
+              title={hasRecords ? 'Latest refresh failed' : 'Unable to load history'}
+              message={error}
+            />
+            <div className="action-row">
               <button
                 type="button"
                 className="button button--secondary"
-                disabled={filters.page <= 1}
-                onClick={() => handlePageChange(filters.page - 1)}
+                onClick={handleRetry}
               >
-                Previous
-              </button>
-              <span className="pagination__status" aria-live="polite">
-                Page {history.pagination.page} of {history.pagination.pages}
-              </span>
-              <button
-                type="button"
-                className="button button--secondary"
-                disabled={filters.page >= history.pagination.pages}
-                onClick={() => handlePageChange(filters.page + 1)}
-              >
-                Next
+                Try Again
               </button>
             </div>
+          </div>
+        ) : null}
+
+        {hasRecords ? (
+          <>
+            <HistoryTable records={history.records} />
+            <HistoryPagination
+              page={history.pagination.page}
+              pages={history.pagination.pages}
+              isDisabled={loading || isRefreshing}
+              onPageChange={handlePageChange}
+            />
           </>
-        ) : (
+        ) : !error ? (
           <EmptyState
-            title="History is empty"
-            description="Predictions saved from the analyzer will appear here once you start using the app."
+            title={
+              hasCategoryFilter ? 'No predictions match this filter' : 'History is empty'
+            }
+            description={
+              hasCategoryFilter
+                ? `There are no saved ${filters.category.toLowerCase()} predictions yet. Try another category or add more analyses.`
+                : 'Predictions saved from the analyzer will appear here once you start using the app.'
+            }
           />
-        )}
+        ) : null}
       </section>
     </div>
   );

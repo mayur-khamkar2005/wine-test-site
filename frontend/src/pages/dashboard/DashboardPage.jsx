@@ -3,8 +3,8 @@ import { motion, useReducedMotion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 
 import {
+  getAllPredictionHistory,
   getDashboardSummary,
-  getPredictionHistory,
 } from '../../api/wine.api.js';
 import LoadingSpinner from '../../components/common/LoadingSpinner.jsx';
 import StatusMessage from '../../components/common/StatusMessage.jsx';
@@ -97,13 +97,13 @@ const DashboardPage = () => {
 
         const [summaryResponse, historyResponse] = await Promise.all([
           getDashboardSummary(),
-          getPredictionHistory({ page: 1, limit: 200 }),
+          getAllPredictionHistory({ limit: 200 }),
         ]);
 
         if (isMounted) {
-          setSummary(summaryResponse.data.summary || defaultSummary);
+          setSummary(summaryResponse?.data?.summary || defaultSummary);
           setHistoryRecords(
-            normalizeHistoryRecords(historyResponse.data.records),
+            normalizeHistoryRecords(historyResponse?.data?.records),
           );
           setError('');
         }

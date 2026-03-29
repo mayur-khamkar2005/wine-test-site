@@ -1,6 +1,10 @@
 import { motion, useReducedMotion } from 'framer-motion';
 
-import { formatDateTime } from '../../utils/formatters.js';
+import {
+  formatDateTime,
+  formatNumericValue,
+  formatScaleValue,
+} from '../../utils/formatters.js';
 
 const categoryClasses = {
   Excellent:
@@ -9,6 +13,8 @@ const categoryClasses = {
   Average:
     'border-[color:var(--gold-border)] bg-[color:var(--gold-bg)] text-[color:var(--gold-text)]',
   Poor: 'border-[color:var(--plum-border)] bg-[color:var(--plum-bg)] text-[color:var(--plum-text)]',
+  Unknown:
+    'border-[color:var(--card-border)] bg-[color:var(--surface)] text-[color:var(--text-strong)]',
 };
 
 const RecentActivityPanel = ({ records }) => {
@@ -25,10 +31,10 @@ const RecentActivityPanel = ({ records }) => {
         </h4>
         <p className="mt-2 max-w-md text-sm leading-6 text-[color:var(--text-soft)]">
           Switch to a wider time window or generate a few new analyses to
-          populate this activity feed. 
+          populate this activity feed.
         </p>
       </div>
-    ); 
+    );
   }
 
   return (
@@ -48,7 +54,7 @@ const RecentActivityPanel = ({ records }) => {
         >
           <div className="flex min-w-0 flex-col gap-3 min-[480px]:flex-row min-[480px]:items-start min-[480px]:justify-between">
             <span
-              className={`inline-flex w-fit max-w-full rounded-full border px-3 py-1 text-xs font-semibold tracking-[0.14em] ${categoryClasses[record.prediction.category] || categoryClasses.Poor}`}
+              className={`inline-flex w-fit max-w-full rounded-full border px-3 py-1 text-xs font-semibold tracking-[0.14em] ${categoryClasses[record.prediction.category] || categoryClasses.Unknown}`}
             >
               {record.prediction.category}
             </span>
@@ -59,10 +65,10 @@ const RecentActivityPanel = ({ records }) => {
 
           <div className="mt-4 space-y-2">
             <h4 className="break-words text-xl font-semibold tracking-tight text-[color:var(--text-strong)] sm:text-2xl">
-              {record.prediction.score}/100
+              {formatScaleValue(record.prediction.score, 100)}
             </h4>
             <p className="text-sm text-[color:var(--text-soft)]">
-              Rating {record.prediction.rating}/10
+              Rating {formatScaleValue(record.prediction.rating, 10)}
             </p>
           </div>
 
@@ -72,7 +78,10 @@ const RecentActivityPanel = ({ records }) => {
                 Alcohol
               </dt>
               <dd className="mt-1 font-semibold text-[color:var(--text-strong)]">
-                {record.inputs.alcohol}%
+                {formatNumericValue(record.inputs.alcohol, {
+                  maximumFractionDigits: 1,
+                  suffix: '%',
+                })}
               </dd>
             </div>
             <div className="rounded-2xl border border-[color:var(--card-border)] bg-[color:var(--surface)] p-3">
@@ -80,7 +89,9 @@ const RecentActivityPanel = ({ records }) => {
                 pH
               </dt>
               <dd className="mt-1 font-semibold text-[color:var(--text-strong)]">
-                {record.inputs.pH}
+                {formatNumericValue(record.inputs.pH, {
+                  maximumFractionDigits: 2,
+                })}
               </dd>
             </div>
           </dl>
