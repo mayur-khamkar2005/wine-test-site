@@ -95,12 +95,16 @@ export const normalizePredictionRecord = (record, fallbackId = 'record-unknown')
     return null;
   }
 
+  const safeId = typeof fallbackId === 'string' && fallbackId.trim()
+    ? fallbackId
+    : 'record-unknown';
+
   return {
     ...record,
     id:
       typeof record.id === 'string' && record.id.trim()
         ? record.id
-        : fallbackId,
+        : safeId,
     prediction: normalizePrediction(record.prediction),
     inputs: normalizeInputs(record.inputs),
     createdAt: record.createdAt || null,
@@ -116,14 +120,15 @@ export const normalizePredictionRecordList = (records = []) =>
     .filter(Boolean);
 
 export const normalizePaginatedPredictionHistory = (payload) => {
-  const records = normalizePredictionRecordList(payload?.records);
+  const safePayload = payload && typeof payload === 'object' ? payload : {};
+  const records = normalizePredictionRecordList(safePayload?.records);
   const total = Math.max(
-    Number.parseInt(payload?.pagination?.total, 10) || records.length,
+    Number.parseInt(safePayload?.pagination?.total, 10) || records.length,
     0,
   );
-  const pages = Math.max(Number.parseInt(payload?.pagination?.pages, 10) || 1, 1);
+  const pages = Math.max(Number.parseInt(safePayload?.pagination?.pages, 10) || 1, 1);
   const page = Math.min(
-    Math.max(Number.parseInt(payload?.pagination?.page, 10) || 1, 1),
+    Math.max(Number.parseInt(safePayload?.pagination?.page, 10) || 1, 1),
     pages,
   );
 

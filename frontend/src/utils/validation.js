@@ -5,11 +5,15 @@ const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 export const validateLoginForm = ({ email, password }) => {
   const errors = {};
 
-  if (!emailPattern.test(email.trim())) {
+  if (!email || typeof email !== 'string') {
+    errors.email = 'Email is required';
+  } else if (!emailPattern.test(email.trim())) {
     errors.email = 'Enter a valid email address';
   }
 
-  if (password.trim().length < 8) {
+  if (!password || typeof password !== 'string') {
+    errors.password = 'Password is required';
+  } else if (password.trim().length < 8) {
     errors.password = 'Password must be at least 8 characters long';
   }
 
@@ -24,20 +28,28 @@ export const validateRegisterForm = ({
 }) => {
   const errors = {};
 
-  if (name.trim().length < 2) {
+  if (!name || typeof name !== 'string') {
+    errors.name = 'Name is required';
+  } else if (name.trim().length < 2) {
     errors.name = 'Name must be at least 2 characters long';
   }
 
-  if (!emailPattern.test(email.trim())) {
+  if (!email || typeof email !== 'string') {
+    errors.email = 'Email is required';
+  } else if (!emailPattern.test(email.trim())) {
     errors.email = 'Enter a valid email address';
   }
 
-  if (!/^(?=.*[A-Za-z])(?=.*\d).{8,}$/.test(password)) {
+  if (!password || typeof password !== 'string') {
+    errors.password = 'Password is required';
+  } else if (!/^(?=.*[A-Za-z])(?=.*\d).{8,}$/.test(password)) {
     errors.password =
       'Password must contain at least one letter, one number, and 8 characters';
   }
 
-  if (confirmPassword !== password) {
+  if (!confirmPassword || typeof confirmPassword !== 'string') {
+    errors.confirmPassword = 'Please confirm your password';
+  } else if (confirmPassword !== password) {
     errors.confirmPassword = 'Passwords do not match';
   }
 
@@ -47,10 +59,14 @@ export const validateRegisterForm = ({
 export const validateWineForm = (formState) => {
   const errors = {};
 
+  if (!formState || typeof formState !== 'object') {
+    return { form: 'Invalid form data' };
+  }
+
   wineFields.forEach((field) => {
     const rawValue = formState[field.name];
 
-    if (rawValue === '') {
+    if (rawValue === '' || rawValue === undefined || rawValue === null) {
       errors[field.name] = `${field.label} is required`;
       return;
     }

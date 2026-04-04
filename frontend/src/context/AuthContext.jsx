@@ -26,8 +26,12 @@ export const AuthProvider = ({ children }) => {
   };
 
   const persistSession = ({ user, token }) => {
-    localStorage.setItem(STORAGE_KEY, token);
-    localStorage.setItem(USER_KEY, JSON.stringify(user));
+    try {
+      localStorage.setItem(STORAGE_KEY, token);
+      localStorage.setItem(USER_KEY, JSON.stringify(user));
+    } catch (storageError) {
+      console.error('Failed to persist session to localStorage:', storageError);
+    }
 
     setAuthState({
       user,
@@ -38,8 +42,12 @@ export const AuthProvider = ({ children }) => {
   };
 
   const clearSession = () => {
-    localStorage.removeItem(STORAGE_KEY);
-    localStorage.removeItem(USER_KEY);
+    try {
+      localStorage.removeItem(STORAGE_KEY);
+      localStorage.removeItem(USER_KEY);
+    } catch (storageError) {
+      console.error('Failed to clear session from localStorage:', storageError);
+    }
     setSignedOutState();
   };
 
@@ -107,15 +115,29 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const login = async (credentials) => {
-    const response = await loginUser(credentials);
-    persistSession(response.data);
-    return response.data;
+    try {
+      const response = await loginUser(credentials);
+      if (!response?.data) {
+        throw new Error('Invalid response from server');
+      }
+      persistSession(response.data);
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
   };
 
   const register = async (payload) => {
-    const response = await registerUser(payload);
-    persistSession(response.data);
-    return response.data;
+    try {
+      const response = await registerUser(payload);
+      if (!response?.data) {
+        throw new Error('Invalid response from server');
+      }
+      persistSession(response.data);
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
   };
 
   const logout = () => {

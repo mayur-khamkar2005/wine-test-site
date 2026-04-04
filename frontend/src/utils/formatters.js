@@ -4,17 +4,21 @@ const dateTimeFormatter = new Intl.DateTimeFormat('en-IN', {
 });
 
 export const formatDateTime = (value) => {
-  if (!value) {
+  if (value === null || value === undefined) {
     return 'N/A';
   }
 
-  const dateValue = value instanceof Date ? value : new Date(value);
+  try {
+    const dateValue = value instanceof Date ? value : new Date(value);
 
-  if (Number.isNaN(dateValue.getTime())) {
+    if (Number.isNaN(dateValue.getTime())) {
+      return 'N/A';
+    }
+
+    return dateTimeFormatter.format(dateValue);
+  } catch {
     return 'N/A';
   }
-
-  return dateTimeFormatter.format(dateValue);
 };
 
 export const formatNumericValue = (
@@ -26,18 +30,26 @@ export const formatNumericValue = (
     suffix = '',
   } = {},
 ) => {
+  if (value === null || value === undefined) {
+    return fallback;
+  }
+
   const numericValue = typeof value === 'number' ? value : Number(value);
 
   if (!Number.isFinite(numericValue)) {
     return fallback;
   }
 
-  const formatter = new Intl.NumberFormat('en-IN', {
-    minimumFractionDigits,
-    maximumFractionDigits,
-  });
+  try {
+    const formatter = new Intl.NumberFormat('en-IN', {
+      minimumFractionDigits,
+      maximumFractionDigits,
+    });
 
-  return `${formatter.format(numericValue)}${suffix}`;
+    return `${formatter.format(numericValue)}${suffix}`;
+  } catch {
+    return fallback;
+  }
 };
 
 export const formatScaleValue = (

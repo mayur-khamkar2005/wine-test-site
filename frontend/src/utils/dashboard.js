@@ -51,26 +51,35 @@ const createMonthKey = (date) =>
 const roundToOne = (value) => Number(value.toFixed(1));
 
 const getAverageScore = (records) => {
-  if (!records.length) {
+  if (!Array.isArray(records) || records.length === 0) {
     return 0;
   }
 
   const total = records.reduce(
-    (sum, record) => sum + record.prediction.score,
+    (sum, record) => sum + (record?.prediction?.score || 0),
     0,
   );
   return roundToOne(total / records.length);
 };
 
-const getUniqueDayCount = (records) =>
-  new Set(records.map((record) => createDayKey(record.createdAtDate))).size;
+const getUniqueDayCount = (records) => {
+  if (!Array.isArray(records)) {
+    return 0;
+  }
+  return new Set(records.map((record) => createDayKey(record?.createdAtDate))).size;
+};
 
 const getReferenceDate = (records) => {
-  if (!records.length) {
+  if (!Array.isArray(records) || records.length === 0) {
     return new Date();
   }
 
-  return records[0].createdAtDate;
+  const firstRecord = records[0];
+  if (!firstRecord?.createdAtDate) {
+    return new Date();
+  }
+
+  return firstRecord.createdAtDate;
 };
 
 const getRangeConfig = (rangeKey) =>
@@ -253,10 +262,14 @@ export const normalizeHistoryRecords = (records = []) =>
     .sort((left, right) => right.createdAtDate - left.createdAtDate);
 
 export const filterRecordsByRange = (records, rangeKey) => {
+  if (!Array.isArray(records)) {
+    return [];
+  }
+
   const { start, end } = getRangeWindow(records, rangeKey);
 
   return records.filter(
-    (record) => record.createdAtDate >= start && record.createdAtDate <= end,
+    (record) => record?.createdAtDate >= start && record?.createdAtDate <= end,
   );
 };
 
@@ -329,7 +342,7 @@ export const buildCategoryBreakdown = (records) =>
     );
 
 export const buildDashboardSnapshot = (records) => {
-  if (!records.length) {
+  if (!Array.isArray(records) || records.length === 0) {
     return {
       totalPredictions: 0,
       averageScore: 0,
@@ -356,7 +369,7 @@ export const buildDashboardSnapshot = (records) => {
 };
 
 export const buildDashboardInsights = (records, rangeKey) => {
-  if (!records.length) {
+  if (!Array.isArray(records) || records.length === 0) {
     return [];
   }
 
@@ -418,7 +431,7 @@ export const buildDashboardInsights = (records, rangeKey) => {
 };
 
 export const formatRangeWindow = (records, rangeKey) => {
-  if (!records.length) {
+  if (!Array.isArray(records) || records.length === 0) {
     return 'Waiting for your first saved prediction';
   }
 

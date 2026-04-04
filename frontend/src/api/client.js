@@ -24,6 +24,10 @@ apiClient.interceptors.request.use((config) => {
 apiClient.interceptors.response.use(
   (response) => response,
   (error) => {
+    if (!error) {
+      return Promise.reject({ message: 'An unknown error occurred' });
+    }
+
     const status = error.response?.status;
     const requestUrl = error.config?.url || '';
 
@@ -33,6 +37,12 @@ apiClient.interceptors.response.use(
       !requestUrl.includes('/auth/register')
     ) {
       window.dispatchEvent(new Event(AUTH_UNAUTHORIZED_EVENT));
+    }
+
+    if (!error.response) {
+      return Promise.reject({
+        message: error.message || 'Network error. Please check your connection.',
+      });
     }
 
     return Promise.reject(
