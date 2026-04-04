@@ -6,12 +6,14 @@ export const notFoundHandler = (req, _res, next) => {
 };
 
 export const errorHandler = (error, _req, res, _next) => {
-  const statusCode = error.statusCode || 500;
+  const statusCode = error?.statusCode || 500;
+  const message = error?.message || 'Internal server error';
+  const errors = error?.errors || [];
 
   res.status(statusCode).json({
     success: false,
-    message: error.message || 'Internal server error',
-    errors: error.errors || [],
-    ...(env.nodeEnv === 'development' ? { stack: error.stack } : {}),
+    message,
+    errors,
+    ...(env.nodeEnv === 'development' ? { stack: error?.stack } : {}),
   });
 };

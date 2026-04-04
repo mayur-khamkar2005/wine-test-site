@@ -16,6 +16,25 @@ const idealRangeScore = (value, min, max) => {
 };
 
 export const calculateWinePrediction = (inputs) => {
+  if (!inputs || typeof inputs !== 'object') {
+    throw new Error('Invalid inputs: expected an object with wine chemistry values');
+  }
+
+  const requiredFields = [
+    'fixedAcidity', 'volatileAcidity', 'citricAcid', 'residualSugar',
+    'chlorides', 'freeSulfurDioxide', 'totalSulfurDioxide',
+    'density', 'pH', 'sulphates', 'alcohol'
+  ];
+
+  for (const field of requiredFields) {
+    if (inputs[field] === undefined || inputs[field] === null) {
+      throw new Error(`Missing required field: ${field}`);
+    }
+    if (Number.isNaN(Number(inputs[field]))) {
+      throw new Error(`Invalid value for ${field}: must be a number`);
+    }
+  }
+
   const weightedMetrics = {
     fixedAcidity: {
       score: idealRangeScore(inputs.fixedAcidity, 5.5, 9.5),
