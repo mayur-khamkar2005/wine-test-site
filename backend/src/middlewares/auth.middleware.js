@@ -7,11 +7,13 @@ import { asyncHandler } from '../utils/asyncHandler.js';
 
 export const protect = asyncHandler(async (req, _res, next) => {
   const authorizationHeader = req.headers.authorization || '';
-  const [scheme, token] = authorizationHeader.split(' ');
+  const parts = authorizationHeader.split(' ');
 
-  if (scheme !== 'Bearer' || !token) {
-    throw new ApiError(401, 'Authentication token is missing');
+  if (parts.length !== 2 || parts[0] !== 'Bearer' || !parts[1]) {
+    throw new ApiError(401, 'Authentication token is missing or malformed');
   }
+
+  const token = parts[1];
 
   let decodedToken;
 
