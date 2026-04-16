@@ -153,11 +153,6 @@ MONGODB_URI=mongodb://127.0.0.1:27017/wine-quality-analyzer
 JWT_SECRET=your-super-secret-key
 JWT_EXPIRES_IN=7d
 CLIENT_URL=http://localhost:5173
-
-# Optional admin bootstrap
-ADMIN_EMAIL=admin@example.com
-ADMIN_PASSWORD=Admin@123
-ADMIN_NAME=Platform Admin
 ```
 
 Notes:
